@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>推箱子 - 15关挑战</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+            padding: 10px;
+            touch-action: none;
+        }
+
+        .game-container {
+            position: relative;
+            margin: 10px auto;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #game-board {
+            display: grid;
+            gap: 1px;
+            background-color: #ccc;
+            padding: 1px;
+            margin: 0 auto;
+        }
+
+        .cell {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background-color: white;
+            transition: all 0.2s;
+        }
+
+        .wall { background-color: #666; }
+        .box { background-color: #f4b942; }
+        .target { background-color: #4caf50; }
+        .player { background-color: #2196f3; }
+        .box.on-target { background-color: #8bc34a; }
+
+        .game-info {
+            text-align: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background-color: #4338ca;
+            transform: translateY(-2px);
+        }
+
+        .level-select {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .cell {
+                width: 35px;
+                height: 35px;
+                font-size: 20px;
+            }
+
+            button {
+                padding: 15px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cell {
+                width: 30px;
+                height: 30px;
+                font-size: 18px;
+            }
+        }
+
+        .swipe-area {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: transparent;
+            z-index: 100;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-info">
+        <div>第 <span id="currentLevel">1</span> 关</div>
+        <div>步数: <span id="moves">0</span></div>
+        <div>最佳记录: <span id="bestMoves">-</span></div>
+    </div>
+    
+    <div class="game-container">
+        <div id="game-board"></div>
+    </div>
+
+    <div class="controls">
+        <button onclick="resetLevel()">重新开始</button>
+        <button onclick="undo()">撤销</button>
+        <button onclick="toggleLevelSelect()">选择关卡</button>
+    </div>
+
+    <div class="level-select" style="display: none;">
+        <h3>选择关卡</h3>
+        <div class="level-grid" id="levelGrid"></div>
+    </div>
+
+    <div class="swipe-area" id="swipeArea"></div>
+
+
+
+<script>
+    // 游戏常量
+    const EMPTY = 0;
+    const WALL = 1;
+    const BOX = 2;
+    const TARGET = 3;
+    const PLAYER = 4;
+    const BOX_ON_TARGET = 5;
+    const PLAYER_ON_TARGET = 6;
+
+    // 15个关卡数据
+    const levels = [
+        // 第1关 - 简单入门
+        [
+            [1, 1, 1, 1, 1],
+            [1, 4, 0, 0, 1],
+            [1, 0, 2, 0, 1],
+            [1, 0, 0, 3, 1],
+            [1, 1, 1, 1, 1]
+        ],
+        // 第2关
+        [
+            [1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 1],
+            [1, 4, 2, 0, 3, 1],
+            [1, 0, 0, 2, 3, 1],
+            [1, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1]
+        ],
+        // ... 添加更多关卡数据
+    ];
+
+    let currentLevel = 0;
+    let moves = 0;
+    let playerPos = { x: 0, y: 0 };
+    let gameBoard = [];
+    let moveHistory = [];
+    let bestMoves = {};
+
+    // 初始化游戏
+    function initLevel() {
+        gameBoard = JSON.parse(JSON.stringify(levels[currentLevel]));
+        moves = 0;
+        moveHistory = [];
+        updateMoves();
+        
+        // 找到玩家位置
+        for(let y = 0; y < gameBoard.length; y++) {
+            for(let x = 0; x < gameBoard[y].length; x++) {
+                if(gameBoard[y][x] === PLAYER || gameBoard[y][x] === PLAYER_ON_TARGET) {
+                    playerPos = { x, y };
+                    break;
+                }
+            }
+        }
+        
+        drawBoard();
+        document.getElementById('currentLevel').textContent = currentLevel + 1;
+        document.getElementById('bestMoves').textContent = 
+            bestMoves[currentLevel] ? bestMoves[currentLevel] : '-';
+    }
+
+    // 移动逻辑
+    function move(dx, dy) {
+        const newX = playerPos.x + dx;
+        const newY = playerPos.y + dy;
+        
+        if(isValidMove(newX, newY)) {
+            const moveState = saveMoveState();
+            
+            if(isBoxMove(newX, newY)) {
+                if(moveBox(newX, newY, dx, dy)) {
+                    movePlayer(newX, newY);
+                    moves++;
+                    updateMoves();
+                    moveHistory.push(moveState);
+                    checkWin();
+                }
+            } else {
+                movePlayer(newX, newY);
+                moves++;
+                updateMoves();
+                moveHistory.push(moveState);
+            }
+        }
+    }
+
+    // 触摸控制
+    let touchStartX = 0;
+    let touchStartY = 0;
+    const swipeArea = document.getElementById('swipeArea');
+
+    swipeArea.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+    });
+
+    swipeArea.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+    }, { passive: false });
+
+    swipeArea.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        
+        const dx = touchEndX - touchStartX;
+        const dy = touchEndY - touchStartY;
+        
+        if(Math.abs(dx) > 30 || Math.abs(dy) > 30) {
+            if(Math.abs(dx) > Math.abs(dy)) {
+                move(dx > 0 ? 1 : -1, 0);
+            } else {
+                move(0, dy > 0 ? 1 : -1);
+            }
+        }
+    });
+
+    // 键盘控制
+    document.addEventListener('keydown', (e) => {
+        switch(e.key) {
+            case 'ArrowLeft': move(-1, 0); break;
+            case 'ArrowRight': move(1, 0); break;
+            case 'ArrowUp': move(0, -1); break;
+            case 'ArrowDown': move(0, 1); break;
+            case 'z': if(e.ctrlKey) undo(); break;
+        }
+    });
+
+    // 初始化游戏
+    initLevel();
+</script>
+</body>
+</html>
