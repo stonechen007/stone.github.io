@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>记忆翻牌游戏</title>
+</head>
+<body>
+    <div class="game-container">
+        <h1>记忆翻牌游戏</h1>
+        <div class="stats">
+            <span>步数: <span id="moves">0</span></span>
+            <span style="margin-left: 20px">配对: <span id="matches">0</span>/8</span>
+        </div>
+        <div class="game-board" id="gameBoard"></div>
+        <button onclick="resetGame()">重新开始</button>
+    </div>
+
+    <div class="win-message" id="winMessage">
+        <h2>恭喜你赢了！</h2>
+        <p>总步数: <span id="finalMoves">0</span></p>
+        <button onclick="resetGame()">再玩一次</button>
+    </div>
+</body>
+</html>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-color: #f0f2f5;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    .game-container {
+        text-align: center;
+    }
+
+    .stats {
+        margin: 20px 0;
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .game-board {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin: 20px;
+        perspective: 1000px;
+    }
+
+    .card {
+        width: 100px;
+        height: 100px;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.5s;
+        cursor: pointer;
+    }
+
+    .card.flipped {
+        transform: rotateY(180deg);
+    }
+
+    .card-front,
+    .card-back {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        backface-visibility: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .card-front {
+        background-color: #4f46e5;
+        color: white;
+    }
+
+    .card-back {
+        background-color: white;
+        transform: rotateY(180deg);
+    }
+
+    .matched {
+        background-color: #10b981;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 1.1rem;
+        background-color: #4f46e5;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #4338ca;
+    }
+
+    .win-message {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .win-message.show {
+        display: block;
+    }
+</style>
+
+<script>
+    const emojis = ['🐶', '🐱', '🐼', '🐨', '🦊', '🐯', '🦁', '🐸'];
+    let cards = [...emojis, ...emojis];
+    let moves = 0;
+    let matches = 0;
+    let flippedCards = [];
+    let canFlip = true;
+
+    function shuffleCards() {
+        for (let i = cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
+    }
+
+    function createCard(emoji, index) {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <div class="card-front">?</div>
+            <div class="card-back">${emoji}</div>
+        `;
+        card.dataset.index = index;
+        card.addEventListener('click', () => flipCard(card));
+        return card;
+    }
+
+    function flipCard(card) {
+        if (!canFlip || card.classList.contains('flipped') || flippedCards.length >= 2) return;
+
+        card.classList.add('flipped');
+        flippedCards.push(card);
+
+        if (flippedCards.length === 2) {
+            moves++;
+            document.getElementById('moves').textContent = moves;
+            canFlip = false;
+
+            const [card1, card2] = flippedCards;
+            const match = cards[card1.dataset.index] === cards[card2.dataset.index];
+
+            if (match) {
+                matches++;
+                document.getElementById('matches').textContent = matches;
+                card1.querySelector('.card-back').classList.add('matched');
+                card2.querySelector('.card-back').classList.add('matched');
+                resetFlippedCards();
+                
+                if (matches === 8) {
+                    setTimeout(showWinMessage, 500);
+                }
+            } else {
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    resetFlippedCards();
+                }, 1000);
+            }
+        }
+    }
+
+    function resetFlippedCards() {
+        flippedCards = [];
+        canFlip = true;
+    }
+
+    function showWinMessage() {
+        document.getElementById('finalMoves').textContent = moves;
+        document.getElementById('winMessage').classList.add('show');
+    }
+
+    function resetGame() {
+        // 重置游戏状态
+        moves = 0;
+        matches = 0;
+        flippedCards = [];
+        canFlip = true;
+        document.getElementById('moves').textContent = '0';
+        document.getElementById('matches').textContent = '0';
+        document.getElementById('winMessage').classList.remove('show');
+
+        // 重新洗牌
+        shuffleCards();
+
+        // 清空并重建游戏板
+        const gameBoard = document.getElementById('gameBoard');
+        gameBoard.innerHTML = '';
+        cards.forEach((emoji, index) => {
+            gameBoard.appendChild(createCard(emoji, index));
+        });
+    }
+
+    // 初始化游戏
+    resetGame();
+</script>
