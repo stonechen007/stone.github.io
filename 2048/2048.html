@@ -1,11 +1,354 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>2048游戏</title>
-    <link rel="stylesheet" href="style.css">
+    <title>2048 炫彩版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 修改 :root 中的变量定义 */
+        :root {
+            --grid-size: 4;
+            --cell-size: min(18vmin, 80px);
+            /* 限制最大尺寸 */
+            --cell-gap: min(2vmin, 10px);
+            /* 调整间距 */
+            --border-radius: min(1.5vmin, 8px);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: #776e65;
+            font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 95%;
+            /* 减小宽度，留出边距 */
+            max-width: min(500px, 95vw);
+            padding: 15px;
+            margin: 10px auto;
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            /* 在手机上改为垂直布局 */
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+
+        h1 {
+            font-size: min(36px, 8vw);
+            margin: 0;
+        }
+
+        /* 调整分数显示 */
+        .scores-container {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .score-wrapper {
+            padding: min(15px, 3vw) min(20px, 4vw);
+            min-width: 100px;
+        }
+
+        .score-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .score-label {
+            font-size: min(14px, 3.5vw);
+        }
+
+        #score,
+        #best-score {
+            display: block;
+            font-size: min(24px, 6vw);
+            font-weight: bold;
+            color: #776e65;
+        }
+
+        .game-container {
+            margin: 0 auto;
+            width: fit-content;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(var(--grid-size), var(--cell-size));
+            grid-template-rows: repeat(var(--grid-size), var(--cell-size));
+            gap: var(--cell-gap);
+            background: #bbada0;
+            border-radius: var(--border-radius);
+            position: relative;
+            touch-action: none;
+        }
+
+        .grid-cell {
+            background: rgba(238, 228, 218, 0.35);
+            border-radius: var(--border-radius);
+        }
+
+        .tile {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: var(--cell-size);
+            height: var(--cell-size);
+            border-radius: var(--border-radius);
+            font-size: calc(var(--cell-size) * 0.35);
+            font-weight: bold;
+            background: #eee4da;
+            transition: transform 0.15s ease-in-out, left 0.15s ease-in-out, top 0.15s ease-in-out;
+            z-index: 1;
+        }
+
+        .tile.new {
+            animation: appear 0.2s ease-in-out;
+        }
+
+        .tile.merged {
+            z-index: 2;
+            animation: pop 0.2s ease-in-out;
+        }
+
+        .tile.moving {
+            z-index: 3;
+        }
+
+        @keyframes appear {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .tile[data-value="2"] {
+            background: linear-gradient(135deg, #eee4da 0%, #ede0c8 100%);
+            color: #776e65;
+        }
+
+        .tile[data-value="4"] {
+            background: linear-gradient(135deg, #ede0c8 0%, #f2b179 100%);
+            color: #776e65;
+        }
+
+        .tile[data-value="8"] {
+            background: linear-gradient(135deg, #f2b179 0%, #f59563 100%);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .tile[data-value="16"] {
+            background: linear-gradient(135deg, #f59563 0%, #f67c5f 100%);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .tile[data-value="32"] {
+            background: linear-gradient(135deg, #f67c5f 0%, #f65e3b 100%);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .tile[data-value="64"] {
+            background: linear-gradient(135deg, #f65e3b 0%, #edcf72 100%);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .tile[data-value="128"] {
+            background: linear-gradient(135deg, #edcf72 0%, #edcc61 100%);
+            color: white;
+            font-size: calc(var(--cell-size) * 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 20px rgba(243, 215, 116, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+        }
+
+        .tile[data-value="256"] {
+            background: linear-gradient(135deg, #edcc61 0%, #edc850 100%);
+            color: white;
+            font-size: calc(var(--cell-size) * 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 20px rgba(243, 215, 116, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.19);
+        }
+
+        .tile[data-value="512"] {
+            background: linear-gradient(135deg, #edc850 0%, #edc53f 100%);
+            color: white;
+            font-size: calc(var(--cell-size) * 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 20px rgba(243, 215, 116, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.24);
+        }
+
+        .tile[data-value="1024"] {
+            background: linear-gradient(135deg, #edc53f 0%, #edc22e 100%);
+            color: white;
+            font-size: calc(var(--cell-size) * 0.25);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 20px rgba(243, 215, 116, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.29);
+        }
+
+        .tile[data-value="2048"] {
+            background: linear-gradient(135deg, #edc22e 0%, #3c3a32 100%);
+            color: white;
+            font-size: calc(var(--cell-size) * 0.25);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 20px rgba(243, 215, 116, 1), inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+        }
+
+        .game-message {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(238, 228, 218, 0.9);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: calc(var(--border-radius) * 2);
+            z-index: 100;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .game-message p {
+            font-size: min(40px, 10vw);
+        }
+
+        .retry-button {
+            padding: min(12px, 3vw) min(24px, 6vw);
+            font-size: min(16px, 4vw);
+            border-radius: min(20px, 5vw);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .game-message.game-over {
+            display: flex;
+        }
+
+        .game-message p {
+            font-size: min(60px, 15vw);
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .retry-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: min(18px, 5vw);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .retry-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .retry-button:active {
+            transform: translateY(0);
+        }
+
+        .instructions {
+            margin-top: 20px;
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            font-size: min(14px, 3.5vw);
+            line-height: 1.6;
+            color: #776e65;
+        }
+
+        @media (max-width: 520px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header {
+                margin-bottom: 15px;
+            }
+
+            .score-wrapper {
+                padding: 10px 15px;
+            }
+
+            .game-container {
+                margin: 0 -10px;
+            }
+
+            :root {
+                --cell-size: 19vmin;
+                --cell-gap: 1.5vmin;
+            }
+        }
+    </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -22,17 +365,364 @@
             </div>
         </div>
         <div class="game-container">
-            <div class="grid-container">
-                <!-- 游戏格子将通过 JavaScript 动态生成 -->
-            </div>
+            <div class="grid-container"></div>
             <div class="game-message">
                 <p></p>
-                <div class="lower">
-                    <button class="retry-button">重新开始</button>
-                </div>
+                <button class="retry-button">再玩一次</button>
             </div>
         </div>
+        <div class="instructions">
+            <p>💫 电脑：使用方向键移动方块</p>
+            <p>📱 手机：滑动屏幕移动方块</p>
+            <p>🎯 相同数字的方块会合并，目标是获得2048！</p>
+        </div>
     </div>
-    <script src="script.js"></script>
+
+
+    <script>
+        class Game2048 {
+            constructor() {
+                this.gridSize = 4;
+                this.cells = [];
+                this.score = 0;
+                this.bestScore = parseInt(localStorage.getItem('bestScore')) || 0;
+                this.gameOver = false;
+                this.isAnimating = false;
+                this.touchStartX = null;
+                this.touchStartY = null;
+
+                this.init();
+                this.setupEventListeners();
+                this.updateResponsiveSize();
+            }
+
+            init() {
+                this.createGrid();
+                this.score = 0;
+                this.updateScore();
+                this.gameOver = false;
+                this.isAnimating = false;
+
+                // 初始化空数组
+                this.cells = Array(this.gridSize).fill(null)
+                    .map(() => Array(this.gridSize).fill(null));
+
+                // 添加两个初始方块
+                this.addNewTile();
+                this.addNewTile();
+
+                document.querySelector('.game-message').classList.remove('game-over');
+            }
+
+            updateResponsiveSize() {
+                const container = document.querySelector('.grid-container');
+                const gameContainer = document.querySelector('.game-container');
+                const computedStyle = window.getComputedStyle(container);
+                const cellSize = parseFloat(computedStyle.gridTemplateColumns.split(' ')[0]);
+                const gap = parseFloat(computedStyle.gap);
+
+                // 更新容器大小
+                const totalSize = cellSize * this.gridSize + gap * (this.gridSize - 1);
+                container.style.width = `${totalSize}px`;
+                container.style.height = `${totalSize}px`;
+                gameContainer.style.width = `${totalSize + gap * 2}px`;
+            }
+
+            createGrid() {
+                const container = document.querySelector('.grid-container');
+                container.innerHTML = '';
+
+                // 创建背景格子
+                for (let i = 0; i < this.gridSize * this.gridSize; i++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('grid-cell');
+                    container.appendChild(cell);
+                }
+            }
+
+            addNewTile() {
+                const emptyCells = [];
+                for (let i = 0; i < this.gridSize; i++) {
+                    for (let j = 0; j < this.gridSize; j++) {
+                        if (!this.cells[i][j]) {
+                            emptyCells.push({ x: i, y: j });
+                        }
+                    }
+                }
+
+                if (emptyCells.length) {
+                    const { x, y } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+                    const value = Math.random() < 0.9 ? 2 : 4;
+                    this.cells[x][y] = value;
+
+                    const tile = this.createTileElement(x, y, value);
+                    tile.classList.add('new');
+                }
+            }
+
+            createTileElement(x, y, value) {
+                const tile = document.createElement('div');
+                tile.classList.add('tile');
+                tile.setAttribute('data-value', value);
+                tile.setAttribute('data-x', x);
+                tile.setAttribute('data-y', y);
+                tile.textContent = value;
+
+                const position = this.calculatePosition(x, y);
+                tile.style.left = position.left + 'px';
+                tile.style.top = position.top + 'px';
+
+                document.querySelector('.grid-container').appendChild(tile);
+                return tile;
+            }
+
+            calculatePosition(row, col) {
+                const cell = document.querySelector('.grid-cell');
+                const gap = parseInt(getComputedStyle(document.querySelector('.grid-container')).gap);
+                const cellSize = cell.offsetWidth;
+
+                return {
+                    top: row * (cellSize + gap),
+                    left: col * (cellSize + gap)
+                };
+            }
+
+            async move(direction) {
+                if (this.gameOver || this.isAnimating) return;
+                this.isAnimating = true;
+
+                const previousState = JSON.stringify(this.cells);
+                const movements = [];
+                let hasChanges = false;
+
+                // 根据方向确定遍历顺序
+                const traversalGrid = this.buildTraversalGrid(direction);
+
+                traversalGrid.x.forEach(x => {
+                    traversalGrid.y.forEach(y => {
+                        const tile = this.cells[x][y];
+                        if (tile) {
+                            const positions = this.findFarthestPosition({ x, y }, direction);
+                            const next = this.getNextPosition(positions.farthest, direction);
+
+                            if (next && this.cells[next.x][next.y] === tile) {
+                                // 合并
+                                const mergedValue = tile * 2;
+                                this.cells[next.x][next.y] = mergedValue;
+                                this.cells[x][y] = null;
+                                this.score += mergedValue;
+                                movements.push({ from: { x, y }, to: next, value: tile, merged: true });
+                                hasChanges = true;
+                            } else if (positions.farthest.x !== x || positions.farthest.y !== y) {
+                                // 移动
+                                this.cells[positions.farthest.x][positions.farthest.y] = tile;
+                                this.cells[x][y] = null;
+                                movements.push({ from: { x, y }, to: positions.farthest, value: tile, merged: false });
+                                hasChanges = true;
+                            }
+                        }
+                    });
+                });
+
+                if (hasChanges) {
+                    await this.animateMovements(movements);
+                    this.updateTiles();
+                    this.addNewTile();
+                    this.updateScore();
+
+                    if (!this.canMove()) {
+                        this.gameOver = true;
+                        document.querySelector('.game-message').classList.add('game-over');
+                        document.querySelector('.game-message p').textContent = '游戏结束！';
+                    }
+                }
+
+                this.isAnimating = false;
+            }
+
+            buildTraversalGrid(direction) {
+                const traversal = {
+                    x: Array.from({ length: this.gridSize }, (_, i) => i),
+                    y: Array.from({ length: this.gridSize }, (_, i) => i)
+                };
+
+                if (direction === 'right') traversal.y = traversal.y.reverse();
+                if (direction === 'down') traversal.x = traversal.x.reverse();
+
+                return traversal;
+            }
+
+            findFarthestPosition(cell, direction) {
+                let previous;
+                let next = cell;
+
+                do {
+                    previous = next;
+                    next = this.getNextPosition(previous, direction);
+                } while (next && !this.cells[next.x][next.y]);
+
+                return {
+                    farthest: previous,
+                    next: next
+                };
+            }
+
+            getNextPosition(cell, direction) {
+                const vectors = {
+                    'up': { x: -1, y: 0 },
+                    'right': { x: 0, y: 1 },
+                    'down': { x: 1, y: 0 },
+                    'left': { x: 0, y: -1 }
+                };
+
+                const vector = vectors[direction];
+                const next = { x: cell.x + vector.x, y: cell.y + vector.y };
+
+                return (next.x >= 0 && next.x < this.gridSize &&
+                    next.y >= 0 && next.y < this.gridSize) ? next : null;
+            }
+
+            async animateMovements(movements) {
+                const tiles = document.querySelectorAll('.tile');
+                const promises = [];
+
+                movements.forEach(move => {
+                    const tile = Array.from(tiles).find(t =>
+                        parseInt(t.getAttribute('data-x')) === move.from.x &&
+                        parseInt(t.getAttribute('data-y')) === move.from.y &&
+                        parseInt(t.getAttribute('data-value')) === move.value
+                    );
+
+                    if (tile) {
+                        tile.classList.add('moving');
+                        const position = this.calculatePosition(move.to.x, move.to.y);
+                        tile.style.left = position.left + 'px';
+                        tile.style.top = position.top + 'px';
+
+                        if (move.merged) {
+                            tile.classList.add('merged');
+                        }
+
+                        promises.push(new Promise(resolve => {
+                            tile.addEventListener('transitionend', resolve, { once: true });
+                        }));
+                    }
+                });
+
+                await Promise.all(promises);
+            }
+
+            updateTiles() {
+                const container = document.querySelector('.grid-container');
+                const tiles = document.querySelectorAll('.tile');
+                tiles.forEach(tile => tile.remove());
+
+                for (let i = 0; i < this.gridSize; i++) {
+                    for (let j = 0; j < this.gridSize; j++) {
+                        if (this.cells[i][j]) {
+                            this.createTileElement(i, j, this.cells[i][j]);
+                        }
+                    }
+                }
+            }
+
+            canMove() {
+                for (let i = 0; i < this.gridSize; i++) {
+                    for (let j = 0; j < this.gridSize; j++) {
+                        if (!this.cells[i][j]) return true;
+
+                        const value = this.cells[i][j];
+                        const neighbors = [
+                            { x: i - 1, y: j }, { x: i + 1, y: j },
+                            { x: i, y: j - 1 }, { x: i, y: j + 1 }
+                        ];
+
+                        for (const neighbor of neighbors) {
+                            if (neighbor.x >= 0 && neighbor.x < this.gridSize &&
+                                neighbor.y >= 0 && neighbor.y < this.gridSize &&
+                                this.cells[neighbor.x][neighbor.y] === value) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+
+            updateScore() {
+                document.getElementById('score').textContent = this.score;
+                if (this.score > this.bestScore) {
+                    this.bestScore = this.score;
+                    localStorage.setItem('bestScore', this.bestScore);
+                    document.getElementById('best-score').textContent = this.bestScore;
+                }
+            }
+
+            setupEventListeners() {
+                // 键盘控制
+                document.addEventListener('keydown', (e) => {
+                    if (e.key.startsWith('Arrow')) {
+                        e.preventDefault();
+                        const direction = e.key.replace('Arrow', '').toLowerCase();
+                        this.move(direction);
+                    }
+                });
+
+                // 触摸控制
+                const container = document.querySelector('.grid-container');
+
+                container.addEventListener('touchstart', (e) => {
+                    if (e.touches.length > 1) return;
+                    this.touchStartX = e.touches[0].clientX;
+                    this.touchStartY = e.touches[0].clientY;
+                    e.preventDefault();
+                }, { passive: false });
+
+                container.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                }, { passive: false });
+
+                container.addEventListener('touchend', (e) => {
+                    if (!this.touchStartX || !this.touchStartY) return;
+
+                    const touchEndX = e.changedTouches[0].clientX;
+                    const touchEndY = e.changedTouches[0].clientY;
+
+                    const deltaX = touchEndX - this.touchStartX;
+                    const deltaY = touchEndY - this.touchStartY;
+                    const minSwipeDistance = 30;
+
+                    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                        if (Math.abs(deltaX) > minSwipeDistance) {
+                            this.move(deltaX > 0 ? 'right' : 'left');
+                        }
+                    } else {
+                        if (Math.abs(deltaY) > minSwipeDistance) {
+                            this.move(deltaY > 0 ? 'down' : 'up');
+                        }
+                    }
+
+                    this.touchStartX = null;
+                    this.touchStartY = null;
+                });
+
+                // 重新开始按钮
+                document.querySelector('.retry-button').addEventListener('click', () => {
+                    this.init();
+                });
+
+                // 窗口大小改变时更新响应式尺寸
+                window.addEventListener('resize', () => {
+                    this.updateResponsiveSize();
+                });
+            }
+        }
+
+        // 启动游戏
+        window.onload = () => {
+            new Game2048();
+        };
+    </script>
 </body>
+
 </html>
