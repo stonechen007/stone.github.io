@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人展示页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 0;
+            background-color: #fff;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            object-fit: cover;
+            border: 3px solid #4f46e5;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .title {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: #4f46e5;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 1.1rem;
+        }
+
+        section {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #4f46e5;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .skill-item {
+            background-color: #f8f8f8;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .experience-item {
+            margin-bottom: 2rem;
+        }
+
+        .experience-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .experience-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #1a1a1a;
+        }
+
+        .experience-company {
+            color: #4f46e5;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-item i {
+            color: #4f46e5;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            header {
+                padding: 2rem 1rem;
+            }
+
+            .profile-img {
+                width: 150px;
+                height: 150px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <header>
+        <img src="https://via.placeholder.com/200" alt="个人照片" class="profile-img">
+        <h1>您的姓名</h1>
+        <div class="title">职位 / 专业方向</div>
+        <p>一句话介绍自己，突出个人特点和专业领域</p>
+        <div class="social-links">
+            <a href="#">GitHub</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">微博</a>
+        </div>
+    </header>
+
+    <section>
+        <h2>关于我</h2>
+        <p>在这里详细介绍自己的背景、经历和目标。描述您的专业兴趣、价值观和追求。让访问者能够快速了解您是谁，以及您能为他们带来什么价值。</p>
+    </section>
+
+    <section>
+        <h2>专业技能</h2>
+        <div class="skills-grid">
+            <div class="skill-item">前端开发</div>
+            <div class="skill-item">后端开发</div>
+            <div class="skill-item">UI设计</div>
+            <div class="skill-item">项目管理</div>
+            <div class="skill-item">数据分析</div>
+            <div class="skill-item">人工智能</div>
+        </div>
+    </section>
+
+    <section>
+        <h2>工作经历</h2>
+        <div class="experience-item">
+            <div class="experience-title">高级开发工程师</div>
+            <div class="experience-company">XX科技有限公司</div>
+            <div class="experience-date">2020年 - 至今</div>
+            <p>描述您在这个职位上的主要职责和成就。包括具体的项目经验和取得的成果。</p>
+        </div>
+        <div class="experience-item">
+            <div class="experience-title">开发工程师</div>
+            <div class="experience-company">XX信息技术有限公司</div>
+            <div class="experience-date">2018年 - 2020年</div>
+            <p>描述您在这个职位上的主要职责和成就。突出您的贡献和学到的技能。</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>教育背景</h2>
+        <div class="experience-item">
+            <div class="experience-title">计算机科学与技术</div>
+            <div class="experience-company">XX大学</div>
+            <div class="experience-date">2014年 - 2018年</div>
+            <p>主修课程和研究方向介绍。可以包括获得的奖学金和参与的重要项目。</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>联系方式</h2>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <i>📧</i>
+                <span>your.email@example.com</span>
+            </div>
+            <div class="contact-item">
+                <i>📱</i>
+                <span>+86 xxx xxxx xxxx</span>
+            </div>
+            <div class="contact-item">
+                <i>📍</i>
+                <span>中国 城市名</span>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // 可以添加一些交互效果
+    document.querySelectorAll('.skill-item').forEach(item => {
+        item.addEventListener('mouseover', () => {
+            item.style.backgroundColor = '#4f46e5';
+            item.style.color = '#fff';
+            item.style.transition = 'all 0.3s ease';
+        });
+
+        item.addEventListener('mouseout', () => {
+            item.style.backgroundColor = '#f8f8f8';
+            item.style.color = '#333';
+        });
+    });
+</script>
+</body>
+</html>
