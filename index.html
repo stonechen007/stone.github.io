@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人展示页面</title>
+    <title>趣味小游戏导航</title>
     <style>
         * {
             margin: 0;
@@ -12,242 +13,256 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f5f5;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            /* 更新背景为时尚渐变色 */
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #fff;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
+        /* 添加背景动画 */
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         header {
             text-align: center;
-            padding: 4rem 0;
-            background-color: #fff;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .profile-img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            margin-bottom: 1rem;
-            object-fit: cover;
-            border: 3px solid #4f46e5;
+            padding: 2rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         h1 {
             font-size: 2.5rem;
-            color: #1a1a1a;
-            margin-bottom: 0.5rem;
-        }
-
-        .title {
-            color: #666;
-            font-size: 1.2rem;
             margin-bottom: 1rem;
+            /* 更新标题渐变效果 */
+            background: linear-gradient(45deg, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
 
-        .social-links {
-            margin-top: 1rem;
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            flex: 1;
         }
 
-        .social-links a {
-            color: #4f46e5;
-            text-decoration: none;
-            margin: 0 10px;
-            font-size: 1.1rem;
-        }
-
-        section {
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        h2 {
-            color: #4f46e5;
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-        }
-
-        .skills-grid {
+        .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .skill-item {
-            background-color: #f8f8f8;
-            padding: 1rem;
-            border-radius: 6px;
-            text-align: center;
-        }
-
-        .experience-item {
-            margin-bottom: 2rem;
-        }
-
-        .experience-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .experience-title {
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: #1a1a1a;
-        }
-
-        .experience-company {
-            color: #4f46e5;
-            margin-bottom: 0.5rem;
-        }
-
-        .experience-date {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
+            padding: 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
-        .contact-item {
+        .game-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
-        .contact-item i {
-            color: #4f46e5;
+        .game-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg,
+                    rgba(255, 255, 255, 0.1),
+                    rgba(255, 255, 255, 0.2));
+            z-index: -1;
+            border-radius: 20px;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
+        .game-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: block;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        .game-card:hover .game-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .game-title {
             font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-description {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-width: 90%;
+            margin: 0 auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 添加霓虹灯效果 */
+        @keyframes neon {
+
+            0%,
+            100% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                    0 0 20px rgba(255, 255, 255, 0.8),
+                    0 0 30px rgba(255, 255, 255, 0.8);
+            }
+
+            50% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
+                    0 0 40px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        /* 响应式布局优化 */
+        @media (max-width: 1024px) {
+            .games-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-
-            header {
-                padding: 2rem 1rem;
-            }
-
-            .profile-img {
-                width: 150px;
-                height: 150px;
-            }
-
             h1 {
                 font-size: 2rem;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .game-card {
+                padding: 1.2rem;
+            }
+
+            .game-icon {
+                font-size: 3rem;
             }
         }
     </style>
 </head>
 
 <body>
-<div class="container">
     <header>
-        <img src="stone.jpg" alt="个人照片" class="profile-img">
-        <h1>陈石生</h1>
-        <div class="title">湖南衡阳 / 1993.3</div>
-        <p>游戏人生</p>
-        <div class="social-links">
-            <a href="https://www.stonemmgame.com/tetris.html">俄罗斯方块</a>
-            <a href="https://www.stonemmgame.com/memory-game.html">翻牌游戏</a>
-            <a href="https://www.stonemmgame.com/breakout.html">打砖块</a>
-            <a href="https://www.stonemmgame.com/2048/2048.html">2048</a>
-            <a href="https://www.stonemmgame.com/shaolei/shaolei.html">扫雷</a>
-            <a href="https://www.stonemmgame.com/fly/fly.html">飞机大战</a>
-        </div>
+        <h1>石头趣味小游戏合集</h1>
+        <p>精选有趣的网页小游戏</p>
     </header>
 
-    <section>
-        <h2>关于我</h2>
-        <p>出生在湖南衡阳一个小乡村，热爱生活，向往自由。</p>
-    </section>
-
-    <section>
-        <h2>专业技能</h2>
-        <div class="skills-grid">
-            <div class="skill-item">APP测试</div>
-            <div class="skill-item">测试开发</div>
-            <div class="skill-item">Python</div>
-            <div class="skill-item">项目管理</div>
-            <div class="skill-item">数据分析</div>
-            <div class="skill-item">人工智能</div>
-        </div>
-    </section>
-
-    <section>
-        <h2>工作经历</h2>
-        <div class="experience-item">
-            <div class="experience-title">高级测试工程师</div>
-            <div class="experience-company">Shopee</div>
-            <div class="experience-date">2020年 - 至今</div>
-            <p>负责公司promotion业务的质量保障。</p>
-        </div>
-        <div class="experience-item">
-            <div class="experience-title">测试工程师</div>
-            <div class="experience-company">云锋金融科技有限公司</div>
-            <div class="experience-date">2017年 - 2020年</div>
-            <p>负责港美股业务测试。</p>
-        </div>
-    </section>
-
-    <section>
-        <h2>教育背景</h2>
-        <div class="experience-item">
-            <div class="experience-title">信息与计算科学</div>
-            <div class="experience-company">湖南农业大学</div>
-            <div class="experience-date">2011年 - 2015年</div>
-            <p>获得国家奖学金。</p>
-        </div>
-    </section>
-
-    <section>
-        <h2>联系方式</h2>
-        <div class="contact-grid">
-            <div class="contact-item">
-                <i>📧</i>
-                <span>937544156@qq.com</span>
+    <div class="container">
+        <div class="games-grid">
+            <div class="game-card" onclick="location.href='2048/index.html'">
+                <span class="game-icon">🎮</span>
+                <h2 class="game-title">2048</h2>
+                <p class="game-description">滑动合并数字，挑战2048！</p>
             </div>
-            <div class="contact-item">
-                <i>📱</i>
-                <span>+86 13392823941</span>
+
+            <div class="game-card" onclick="location.href='minesweeper/index.html'">
+                <span class="game-icon">💣</span>
+                <h2 class="game-title">扫雷</h2>
+                <p class="game-description">考验逻辑的经典游戏</p>
             </div>
-            <div class="contact-item">
-                <i>📍</i>
-                <span>中国 城市名</span>
+
+            <div class="game-card" onclick="location.href='plane-battle/index.html'">
+                <span class="game-icon">✈️</span>
+                <h2 class="game-title">飞机大战</h2>
+                <p class="game-description">激战天空，收集道具</p>
+            </div>
+
+            <div class="game-card" onclick="location.href='snake/index.html'">
+                <span class="game-icon">🐍</span>
+                <h2 class="game-title">贪吃蛇</h2>
+                <p class="game-description">不断成长的挑战</p>
+            </div>
+
+            <div class="game-card" onclick="location.href='tetris/index.html'">
+                <span class="game-icon">🎲</span>
+                <h2 class="game-title">俄罗斯方块</h2>
+                <p class="game-description">考验空间想象力</p>
+            </div>
+
+            <div class="game-card" onclick="location.href='memory/index.html'">
+                <span class="game-icon">🐯</span>
+                <h2 class="game-title">翻牌游戏</h2>
+                <p class="game-description">休闲益智小游戏</p>
             </div>
         </div>
-    </section>
-</div>
+    </div>
 
-<script>
-    // 可以添加一些交互效果
-    document.querySelectorAll('.skill-item').forEach(item => {
-        item.addEventListener('mouseover', () => {
-            item.style.backgroundColor = '#4f46e5';
-            item.style.color = '#fff';
-            item.style.transition = 'all 0.3s ease';
+    <footer>
+        <p>© 2025 趣味小游戏合集 | 支持触屏和键盘操作</p>
+        <p>© 出品人：陈石生</p>
+    </footer>
+
+    <script>
+        // 添加移动端触摸反馈
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.opacity = '0.8';
+            });
+
+            card.addEventListener('touchend', () => {
+                card.style.opacity = '1';
+            });
         });
-
-        item.addEventListener('mouseout', () => {
-            item.style.backgroundColor = '#f8f8f8';
-            item.style.color = '#333';
-        });
-    });
-</script>
+    </script>
 </body>
+
 </html>
