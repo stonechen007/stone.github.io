@@ -156,3 +156,48 @@ page { background: #071719; }
   .trick-zone, .call-panel { width: 82%; }
   .score-members { max-width: 190rpx; }
 }
+
+@media (orientation: landscape) {
+  .page-shell { padding: 0 16rpx 18rpx; }
+  .game-screen { padding: 12rpx 0 18rpx; }
+  .game-head { min-height: 44rpx; }
+  .score-strip, .info-card, .log-card { display: none; }
+  .table { height: calc(100vh - 112px); min-height: 300px; border-radius: 22rpx; }
+  .table::before { top: 31%; font-size: 34rpx; }
+  .seat { min-width: 170rpx; gap: 8rpx; }
+  .seat-bottom { bottom: 170rpx; left: 18rpx; }
+  .seat-left, .seat-right { top: 35%; }
+  .seat-left { left: 16rpx; }
+  .seat-right { right: 16rpx; }
+  .seat-avatar, .seat-top .seat-avatar { width: 62rpx; height: 62rpx; border-radius: 18rpx; font-size: 25rpx; }
+  .seat-top { top: 12rpx; gap: 5rpx; }
+  .seat-name { font-size: 19rpx; }
+  .seat-state { margin-top: 3rpx; font-size: 15rpx; }
+  .seat-tags { margin-top: 4rpx; gap: 4rpx; }
+  .dealer, .team-tag, .call-badge, .finish-badge, .joker-badge { padding: 3rpx 6rpx; font-size: 13rpx; }
+  .rating-badge, .capture-badge { padding: 5rpx 7rpx; font-size: 14rpx; }
+  .seat-top .rating-badge { top: 4rpx; right: -68rpx; }
+  .seat-top .capture-badge { top: 36rpx; right: -68rpx; }
+  .trick-zone { top: 40%; width: 56%; min-height: 160rpx; padding: 18rpx; }
+  .trick-title { font-size: 20rpx; }
+  .trick-subtitle { margin-top: 7rpx; font-size: 15rpx; }
+  .played-row { min-height: 84rpx; }
+  .played-card { width: 56rpx; height: 80rpx; padding: 8rpx 6rpx; }
+  .card-rank { font-size: 20rpx; }
+  .card-suit { font-size: 14rpx; }
+  .played-by { right: -6rpx; bottom: -8rpx; min-width: 22rpx; padding: 3rpx; font-size: 12rpx; }
+  .hand-dock { right: 14rpx; bottom: 12rpx; left: 14rpx; padding: 12rpx 12rpx 8rpx; border-radius: 16rpx; }
+  .hand-title { font-size: 18rpx; }
+  .hand-title text { font-size: 15rpx; }
+  .hand-scroll { margin-top: 8rpx; }
+  .hand-row { padding-top: 8rpx; }
+  .card-button { width: 82rpx; height: 110rpx; margin-left: -11rpx; }
+  .playing-card { width: 82rpx; height: 110rpx; padding: 9rpx 8rpx; border-radius: 10rpx; }
+  .playing-card .card-rank { font-size: 23rpx; }
+  .playing-card .card-suit { font-size: 16rpx; }
+  .card-center { font-size: 34rpx; }
+  .action-bar { margin-top: 10rpx; }
+  .action-hint { font-size: 17rpx; }
+  .action-buttons button { width: 118rpx; padding-top: 12rpx; padding-bottom: 12rpx; }
+  .tool-row { display: none; }
+}

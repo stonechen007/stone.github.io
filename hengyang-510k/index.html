@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <meta name="theme-color" content="#081b1c">
     <title>衡阳 510K · 四人牌局</title>
     <style>
@@ -333,8 +333,7 @@
             .action-hint { margin-bottom: 9px; text-align: center; }
             .action-buttons { justify-content: center; }
             .action-buttons .primary-btn, .action-buttons .soft-btn { min-width: 132px; padding: 11px 9px; }
-            .side-panel { display: block; }
-            .side-panel .info-card { border-top: 1px solid rgba(255,255,255,.08); }
+            .side-panel { display: none; }
             .rules-grid { grid-template-columns: 1fr; }
             .rule-block.wide { grid-column: auto; }
             .welcome-card { padding: 31px 25px; }
@@ -345,6 +344,71 @@
             .online-join button { width: 100%; }
             .online-card { padding: 23px 18px; }
             .room-seats { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .rotate-hint { display: none; }
+        @media (max-width: 720px) and (orientation: portrait) {
+            body { overflow: hidden; }
+            .rotate-hint { position: fixed; inset: 0; z-index: 100; display: grid; place-content: center; gap: 10px; padding: 28px; color: var(--cream); background: radial-gradient(circle at center, #174942, #071719 72%); text-align: center; }
+            .rotate-hint .rotate-icon { margin: 0 auto 2px; color: var(--gold); font-size: 42px; line-height: 1; transform: rotate(90deg); }
+            .rotate-hint strong { color: var(--gold-soft); font-size: 22px; }
+            .rotate-hint p { max-width: 260px; margin: 0 auto; color: var(--muted); font-size: 12px; line-height: 1.7; }
+            .rotate-hint button { justify-self: center; margin-top: 5px; }
+        }
+        @media (orientation: landscape) and (max-height: 600px) {
+            .app-shell { padding: 0 6px 6px; }
+            .topbar { height: 45px; }
+            .top-actions { display: none; }
+            .game-layout { display: block; }
+            .side-panel { display: none; }
+            .table-panel { padding: 5px; border-radius: 12px; }
+            .table-toolbar { padding: 1px 3px 6px; }
+            .table-heading h2 { font-size: 14px; }
+            .table-heading p { margin-top: 2px; font-size: 9px; }
+            .round-pill { padding: 5px 8px; font-size: 9px; }
+            .table-surface { height: calc(100vh - 135px); min-height: 275px; }
+            .table-surface::before { top: 28%; font-size: 22px; }
+            .table-surface::after { inset: 8px; border-radius: 10px; }
+            .seat { min-width: 0; gap: 5px; }
+            .seat-top { top: 9px; gap: 3px; }
+            .seat-left { top: 34%; left: 8px; }
+            .seat-right { top: 34%; right: 8px; }
+            .seat-bottom { bottom: 122px; left: 10px; }
+            .avatar, .seat-top .avatar { width: 32px; height: 32px; border-radius: 9px; font-size: 13px; }
+            .seat-top .avatar { width: 30px; height: 30px; }
+            .seat-info { min-width: 0; }
+            .seat-name, .seat-state { display: none; }
+            .seat-badges { max-width: 70px; margin-top: 0; gap: 3px; }
+            .dealer-badge, .call-badge, .team-badge, .finish-badge, .joker-badge, .rating-badge, .capture-badge { padding: 3px 4px; font-size: 8px; }
+            .seat-top .rating-badge { top: 0; right: -47px; }
+            .seat-top .capture-badge { top: 22px; right: -47px; }
+            .trick-zone { top: 42%; width: 54%; min-height: 95px; border-radius: 13px; }
+            .trick-copy strong { font-size: 11px; }
+            .trick-copy span { margin-top: 4px; font-size: 9px; }
+            .played-cards { min-height: 54px; }
+            .played-card, .played-card .mini-card { width: 36px; height: 51px; border-radius: 5px; }
+            .played-card .mini-card .card-rank { font-size: 12px; }
+            .played-card .mini-card .card-suit { font-size: 8px; }
+            .trick-meta { min-height: 12px; font-size: 8px; }
+            .call-panel { width: min(350px, 76%); padding: 15px; }
+            .call-panel h3 { margin: 6px 0 4px; font-size: 16px; }
+            .call-panel p { margin-bottom: 10px; font-size: 10px; }
+            .call-buttons button { min-width: 90px; padding: 7px 9px; }
+            .hand-dock { right: 8px; bottom: 7px; left: 8px; min-height: 91px; padding: 7px 7px 5px; border-radius: 11px; }
+            .hand-head, .hand-head strong { font-size: 9px; }
+            .tiny-btn { padding: 2px 4px; font-size: 9px; }
+            .hand-cards { min-height: 57px; padding-inline: 0; }
+            .card-button, .playing-card { width: 42px; height: 59px; }
+            .card-button { flex-basis: 42px; margin-left: -8px; }
+            .playing-card { padding: 5px 4px; border-radius: 6px; }
+            .playing-card .card-rank, .card-rank { font-size: 12px; }
+            .playing-card .card-suit { font-size: 8px; }
+            .card-center { font-size: 16px; }
+            .card-corner { display: none; }
+            .action-bar { display: flex; gap: 8px; margin-top: 7px; }
+            .action-hint { margin: 0; font-size: 9px; text-align: left; }
+            .action-buttons { gap: 5px; }
+            .action-buttons .primary-btn, .action-buttons .soft-btn { min-width: 72px; padding: 7px 6px; font-size: 10px; }
         }
     </style>
 </head>
@@ -445,6 +509,13 @@
         </div>
     </div>
 
+    <div class="rotate-hint" id="rotateHint" role="status">
+        <div class="rotate-icon">↔</div>
+        <strong>请横屏使用</strong>
+        <p>衡阳 510K 需要横向牌桌才能完整展示手牌，请旋转手机后继续。</p>
+        <button class="primary-btn" id="rotateHintButton">尝试切换横屏</button>
+    </div>
+
     <div class="modal hidden" id="onlineModal">
         <div class="online-card">
             <div class="rules-head"><h2>在线组局 · 4 人一桌</h2><button class="close-btn" id="closeOnline">×</button></div>
@@ -500,6 +571,7 @@
             const ui = {
                 welcome: $('welcomeScreen'), rules: $('rulesModal'), table: $('tableSurface'), canvas: $('feltCanvas'),
                 start: $('startGame'), newGame: $('newGameBtn'), nextGame: $('nextGameBtn'), rulesBtn: $('rulesBtn'), closeRules: $('closeRules'),
+                rotateHintButton: $('rotateHintButton'),
                 onlineMode: $('onlineModeBtn'), onlineStart: $('onlineStartBtn'), onlineModal: $('onlineModal'), closeOnline: $('closeOnline'),
                 onlineName: $('onlineName'), onlineServerUrl: $('onlineServerUrl'), createRoom: $('createRoomBtn'), joinRoom: $('joinRoomBtn'), refreshRoom: $('refreshRoomBtn'),
                 roomCodeInput: $('roomCodeInput'), onlineStatus: $('onlineStatus'), roomCodeBox: $('roomCodeBox'), roomCodeText: $('roomCodeText'), copyRoom: $('copyRoomBtn'), roomSeats: $('roomSeats'), onlineFootNote: $('onlineFootNote'), leaveOnline: $('leaveOnlineBtn'),
@@ -520,6 +592,25 @@
             let onlineSocket = null;
             let onlineRoom = null;
             let onlinePending = null;
+
+            function isMobileViewport() {
+                return Boolean(window.matchMedia?.('(max-width: 720px)').matches || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent));
+            }
+
+            function requestMobileLandscape() {
+                if (!isMobileViewport()) return;
+                const lockLandscape = () => {
+                    try {
+                        const lockResult = window.screen.orientation?.lock?.('landscape');
+                        lockResult?.catch?.(() => {});
+                    } catch (error) { /* CSS rotate hint is the fallback. */ }
+                };
+                if (document.fullscreenElement || !document.documentElement.requestFullscreen) {
+                    lockLandscape();
+                    return;
+                }
+                document.documentElement.requestFullscreen().then(lockLandscape).catch(lockLandscape);
+            }
 
             function getLocalPlayerId() { return game?.online ? game.localPlayerId : 0; }
 
@@ -677,6 +768,7 @@
             }
 
             function openOnline() {
+                requestMobileLandscape();
                 if (!ui.onlineServerUrl.value.trim()) ui.onlineServerUrl.value = onlineDefaultUrl();
                 ui.welcome.classList.add('hidden');
                 ui.onlineModal.classList.remove('hidden');
@@ -1443,7 +1535,7 @@
                 return JSON.stringify(payload);
             };
 
-            ui.start.addEventListener('click', newGame);
+            ui.start.addEventListener('click', () => { requestMobileLandscape(); newGame(); });
             ui.newGame.addEventListener('click', requestNextGame);
             ui.nextGame.addEventListener('click', requestNextGame);
             ui.onlineMode.addEventListener('click', openOnline);
@@ -1473,12 +1565,15 @@
             ui.rules.addEventListener('click', event => { if (event.target === ui.rules) ui.rules.classList.add('hidden'); });
             ui.closeRuleError.addEventListener('click', closeRuleError);
             ui.ruleError.addEventListener('click', event => { if (event.target === ui.ruleError) closeRuleError(); });
+            ui.rotateHintButton.addEventListener('click', requestMobileLandscape);
             ui.play.addEventListener('click', handlePlay); ui.pass.addEventListener('click', handlePass); ui.sort.addEventListener('click', sortHand); ui.hint.addEventListener('click', hint);
             ui.hand.addEventListener('click', event => { const button = event.target.closest('.card-button'); if (button) toggleCard(button.dataset.cardId); });
             document.addEventListener('keydown', event => { if (event.key === 'Enter' && !game) newGame(); if (event.key === 'Escape') { ui.rules.classList.add('hidden'); closeOnlineModal(); closeRuleError(); } if (event.key.toLowerCase() === 'f') document.documentElement.requestFullscreen?.(); });
             ui.onlineServerUrl.value = ui.onlineServerUrl.value || onlineDefaultUrl();
             renderOnlineLobby();
-            window.addEventListener('resize', drawFelt);
+            window.addEventListener('resize', () => { drawFelt(); render(); });
+            window.addEventListener('orientationchange', () => { drawFelt(); render(); });
+            document.addEventListener('fullscreenchange', () => { drawFelt(); render(); });
             render(); drawFelt(); rafId = requestAnimationFrame(loop);
         })();
     </script>
