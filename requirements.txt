@@ -1,0 +1,6 @@
+requests>=2.28.0
+pandas>=1.5.0
+akshare>=1.16.0  # 需要Python 3.8+
+selenium>=4.0.0  # 用于Selenium版本
+openpyxl>=3.0.0  # 用于Excel导出
+

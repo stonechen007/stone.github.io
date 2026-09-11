@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "衡阳 510K",
+    "navigationBarBackgroundColor": "#071719",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#071719",
+    "backgroundTextStyle": "dark"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

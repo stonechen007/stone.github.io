@@ -1,0 +1,57 @@
+<view class="page-shell">
+  <view wx:if="{{screen == 'welcome'}}" class="welcome-screen">
+    <view class="brand-mark">衡</view>
+    <view class="kicker">NANYUE TABLE · ONLINE</view>
+    <view class="title">衡阳 <text>510K</text></view>
+    <view class="intro">一副牌，四个人，朋友藏在大小王里。创建房间，和朋友在线打出一手漂亮的炸弹。</view>
+    <view class="feature-row"><text>4 人一桌</text><text>54 张整副牌</text><text>实时同步</text></view>
+    <button class="primary-btn large" bindtap="openLobby">进入在线牌桌</button>
+    <button class="text-btn" bindtap="openRules">玩法说明</button>
+  </view>
+
+  <view wx:if="{{screen == 'lobby'}}" class="lobby-screen">
+    <view class="page-head"><view><view class="eyebrow">ONLINE TABLE</view><view class="page-title">在线组局 · 4 人一桌</view></view><button class="close-text" bindtap="leaveRoom">退出</button></view>
+    <view class="glass-card">
+      <view class="helper">创建房间后把房间码发给另外 3 位玩家，4 个座位坐满后房主自动发牌。</view>
+      <view class="form-label">你的昵称</view>
+      <input class="input" maxlength="12" value="{{name}}" bindinput="onNameInput" placeholder="请输入昵称" />
+      <view class="form-label address-label">WebSocket 服务地址</view>
+      <input class="input" value="{{serverUrl}}" bindinput="onServerInput" placeholder="wss://game.example.com/ws" />
+      <view class="button-row"><button class="primary-btn" bindtap="createRoom">创建房间</button><button class="soft-btn" bindtap="joinRoom">加入房间</button></view>
+      <view class="join-row"><input class="input room-input" maxlength="6" value="{{roomCodeInput}}" bindinput="onRoomCodeInput" placeholder="输入 6 位房间码" /><button class="soft-btn join-btn" bindtap="joinRoom">加入</button></view>
+      <view class="status {{statusError ? 'error' : ''}}">{{status}}</view>
+    </view>
+    <view wx:if="{{roomCode}}" class="glass-card room-card">
+      <view class="room-code-head"><view><view class="muted">房间码 · 发给你的朋友</view><view class="room-code">{{roomCode}}</view></view><button class="copy-btn" bindtap="copyRoomCode">复制</button></view>
+      <view class="room-grid">
+        <view wx:for="{{roomSeats}}" wx:key="id" class="room-seat {{item.empty ? 'empty' : 'ready'}}"><view class="room-avatar">{{item.empty ? item.seatNo : item.avatar}}</view><view class="room-name">{{item.empty ? '等待玩家' : item.name}}</view><view class="room-state">{{item.empty ? '空座位' : item.host ? '房主' : item.self ? '你' : '已加入'}}</view></view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{screen == 'game' && gameView}}" class="game-screen">
+    <view class="game-head"><view><view class="brand-line"><text class="mini-mark">衡</text><text class="game-name">衡阳 510K</text></view><view class="round-status">{{gameView.roundStatus}}</view></view><view class="round-pill">在线 · 第 {{gameView.round}} 局 · {{gameView.roundStatusText}}</view></view>
+
+    <view class="score-strip"><view class="score-team"><view class="score-label">{{gameView.myTeamLabel}}</view><view class="score-members">{{gameView.myTeamMembers}}</view><view class="score-number">{{gameView.myTotal}}</view></view><view class="score-team opponent"><view class="score-label">{{gameView.opponentTeamLabel}}</view><view class="score-members">{{gameView.opponentTeamMembers}}</view><view class="score-number">{{gameView.opponentTotal}}</view></view></view>
+
+    <view class="table">
+      <view wx:for="{{gameView.players}}" wx:key="id" class="seat {{item.position}} {{item.isTurn ? 'is-turn' : ''}}"><view class="seat-avatar">{{item.avatar}}</view><view class="rating-badge">积分 {{item.rating}}</view><view class="capture-badge">{{item.captureText}}</view><view class="seat-text"><view class="seat-name">{{item.name}}<text wx:if="{{item.id == gameView.dealer}}" class="dealer">庄</text></view><view class="seat-state">{{item.stateText}}</view><view class="seat-tags"><text wx:if="{{item.finishText}}" class="finish-badge">{{item.finishText}}</text><text wx:if="{{item.jokerText}}" class="joker-badge">{{item.jokerText}}</text><text wx:if="{{item.callText}}" class="call-badge">{{item.callText}}</text><text wx:if="{{item.relationText && item.callText != item.relationText}}" class="team-tag">{{item.relationText}}</text></view></view></view>
+
+      <view class="trick-zone"><view class="trick-title">{{gameView.trickTitle}}</view><view class="trick-subtitle">{{gameView.trickSubtitle}}</view><view class="played-row"><view wx:for="{{gameView.played}}" wx:key="id" class="played-card {{item.red ? 'red' : ''}}"><view class="card-rank">{{item.label}}</view><view class="card-suit">{{item.suitSymbol}}</view><view class="played-by">{{item.byAvatar}}</view></view></view><view class="trick-points">{{gameView.trickPointsText}}</view></view>
+
+      <view wx:if="{{gameView.mode == 'call'}}" class="call-panel"><view class="call-eyebrow">ONLINE · 叫牌</view><view class="call-title">四人决定是否宣起</view><view class="call-desc">已完成 {{gameView.pendingCalls}}/4 · 一人宣起 ×2，两人宣起视为加宣 ×4</view><view wx:if="{{gameView.canCall}}" class="call-actions"><button class="soft-btn" data-call="false" bindtap="handleCall">不宣</button><button class="primary-btn" data-call="true" bindtap="handleCall">宣起</button></view><view wx:else class="waiting-call">{{gameView.callChoice == 'call' ? '你已宣起' : '你已选择不宣'}}，等待其他玩家完成叫牌</view></view>
+
+      <view class="hand-dock"><view class="hand-title">{{gameView.localName}}的手牌 · {{gameView.hand.length}} 张<text>点击选牌</text></view><scroll-view scroll-x="true" class="hand-scroll"><view class="hand-row"><view wx:for="{{gameView.hand}}" wx:key="id" class="card-button {{item.selected ? 'selected' : ''}}" data-card-id="{{item.id}}" bindtap="toggleCard"><view class="playing-card {{item.red ? 'red' : ''}} {{item.joker ? 'joker' : ''}}"><view class="card-rank">{{item.label}}</view><view class="card-suit">{{item.suitSymbol}}</view><view class="card-center">{{item.joker ? '★' : item.suitSymbol}}</view></view></view></view></scroll-view></view>
+    </view>
+
+    <view class="action-bar"><view class="action-hint">{{gameView.actionText}}</view><view class="action-buttons"><button class="soft-btn" disabled="{{!gameView.canPass}}" bindtap="passSelected">不要</button><button class="primary-btn" disabled="{{!gameView.canPlay}}" bindtap="playSelected">出牌</button></view></view>
+    <view class="tool-row"><button class="tiny-btn" bindtap="sortHand">整理手牌</button><button class="tiny-btn" bindtap="showHint">提示</button><button class="tiny-btn" bindtap="openRules">玩法说明</button><button wx:if="{{gameView.mode == 'result'}}" class="tiny-btn highlight" bindtap="requestNextGame">再来一局</button></view>
+
+    <view class="info-card"><view class="info-head">本轮信息 · 个人积分从 100 开始</view><view class="info-line"><text>出牌权</text><text>{{gameView.turnName}}</text></view><view class="info-line"><text>牌型</text><text>{{gameView.lastTypeText}}</text></view><view class="info-line"><text>宣起状态</text><text>{{gameView.callStateText}}</text></view><view class="personal-list"><view wx:for="{{gameView.players}}" wx:key="id" class="personal-line {{item.isMine ? 'mine' : ''}}"><text>{{item.name}} · {{item.teamText}}</text><text>{{item.captured}} 分 / 净 {{item.score}} / 本局 {{item.ratingDelta >= 0 ? '+' : ''}}{{item.ratingDelta}} / 积 {{item.rating}}</text></view></view></view>
+
+    <view wx:if="{{gameView.result}}" class="result-card"><view class="result-label">{{gameView.result.label}}</view><view class="result-title">{{gameView.result.winnerText}}</view><view class="result-desc">{{gameView.result.label}} · 积分基数 {{gameView.result.points}}（{{gameView.result.callText}}）。{{gameView.result.penaltyText}}</view><view class="result-score"><view><text>我方</text><strong>{{gameView.result.myTotal}}</strong></view><view><text>对手</text><strong>{{gameView.result.opponentTotal}}</strong></view></view><view class="result-rating">{{gameView.result.ratingText}}</view><button class="primary-btn" bindtap="requestNextGame">再来一局</button></view>
+    <view class="log-card"><view class="info-head">牌桌动态</view><scroll-view scroll-y="true" class="log-scroll"><view wx:for="{{gameView.log}}" wx:key="time" class="log-line"><text>{{item.time < 10 ? '0' : ''}}{{item.time}}</text><text>{{item.message}}</text></view></scroll-view></view>
+  </view>
+
+  <view wx:if="{{showRules}}" class="mask" catchtap="closeRulesByMask"><view class="rules-card"><view class="rules-head"><view class="page-title">衡阳 510K · 玩法说明</view><button class="close-text" catchtap="closeRules">关闭</button></view><view class="rule-block"><view class="rule-title">基础分与队形</view><view>5 计 5 分，10 和 K 各计 10 分。大小王分属不同玩家时为朋友，同一人拿到双王则单打三人；宣起或加宣会改变队形和倍率。</view></view><view class="rule-block"><view class="rule-title">普通牌型</view><view>单张、对子（2 不能成对）、顺子（至少 3 张，从 4 起，不含 3/2/王）、连对（2 连对起，2 不能成连对）、三带二、三张连对。三带二副牌可任意两张，例如三个 10 带 K+8。</view></view><view class="rule-block"><view class="rule-title">炸弹</view><view>王炸（双王）＞地炸（四张一样）＞正 510K（同花色）＞副 510K（5/10/K 花色各不相同）。510K 可多个组合连出，炸弹可以管所有普通牌。</view></view><view class="rule-block"><view class="rule-title">在线牌局</view><view>房主负责发牌和推进牌局，其他玩家的操作通过 WSS 发送给房主，再同步给全桌。</view></view></view></view>
+</view>
