@@ -106,6 +106,8 @@ function roomView(room) {
     return {
         code: room.code,
         hostId: room.hostId,
+        started: room.started,
+        ready: Array.from({ length: 4 }, (_, id) => room.ready.has(id)),
         players: room.players.map(player => ({ id: player.id, name: player.name, connected: true }))
     };
 }
@@ -145,6 +147,7 @@ function removeFromRoom(client) {
         rooms.delete(room.code);
         return;
     }
+    room.ready.delete(playerId);
     room.players = room.players.filter(player => player.id !== playerId);
     if (!room.players.length) rooms.delete(room.code);
     else broadcastRoom(room);
@@ -164,7 +167,7 @@ function joinRoom(client, room, name, playerId) {
 
 function createRoom(client, message) {
     removeFromRoom(client);
-    const room = { code: makeRoomCode(), hostId: 0, players: [], clients: new Map(), snapshot: null };
+    const room = { code: makeRoomCode(), hostId: 0, players: [], clients: new Map(), ready: new Set(), started: false, snapshot: null };
     rooms.set(room.code, room);
     joinRoom(client, room, message.name, 0);
 }
@@ -174,6 +177,7 @@ function joinExistingRoom(client, message) {
     const code = String(message.roomCode || '').trim().toUpperCase();
     const room = rooms.get(code);
     if (!room) { sendJson(client, { type: 'error', message: '房间不存在或已关闭。' }); return; }
+    if (room.started) { sendJson(client, { type: 'error', message: '本桌已经开始，请等待下一桌。' }); return; }
     if (room.players.length >= 4) { sendJson(client, { type: 'error', message: '房间已满，当前只支持 4 人一桌。' }); return; }
     const playerId = [0, 1, 2, 3].find(id => !room.clients.has(id));
     joinRoom(client, room, message.name, playerId);
@@ -187,6 +191,20 @@ function handleMessage(client, message) {
     if (!client.roomCode) { sendJson(client, { type: 'error', message: '请先创建或加入房间。' }); return; }
     const room = rooms.get(client.roomCode);
     if (!room) { sendJson(client, { type: 'error', message: '房间已关闭。' }); return; }
+    if (message.type === 'ready') {
+        if (room.started) { sendJson(client, { type: 'error', message: '本桌已经开始。' }); return; }
+        if (room.players.length < 4) { sendJson(client, { type: 'error', message: '需要 4 位玩家入座后才能开始。' }); return; }
+        room.ready.add(client.playerId);
+        broadcastRoom(room);
+        if (room.players.length === 4 && room.players.every(player => room.ready.has(player.id))) {
+            room.started = true;
+            for (const player of room.players) {
+                const playerClient = room.clients.get(player.id);
+                if (playerClient) sendJson(playerClient, { type: 'start', roomCode: room.code });
+            }
+        }
+        return;
+    }
     if (message.type === 'state' && client.playerId === room.hostId) {
         room.snapshot = message.snapshot || null;
         for (const [id, playerClient] of room.clients) if (id !== room.hostId) sendJson(playerClient, { type: 'state', roomCode: room.code, snapshot: privateSnapshot(room.snapshot, id) });

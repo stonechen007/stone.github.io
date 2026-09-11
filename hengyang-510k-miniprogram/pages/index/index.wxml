@@ -12,7 +12,7 @@
   <view wx:if="{{screen == 'lobby'}}" class="lobby-screen">
     <view class="page-head"><view><view class="eyebrow">ONLINE TABLE</view><view class="page-title">在线组局 · 4 人一桌</view></view><button class="close-text" bindtap="leaveRoom">退出</button></view>
     <view class="glass-card">
-      <view class="helper">创建房间后把房间码发给另外 3 位玩家，4 个座位坐满后房主自动发牌。</view>
+      <view class="helper">创建房间后分享小程序链接，4 个座位坐满且所有玩家点击“开始游戏”后才会发牌。</view>
       <view class="form-label">你的昵称</view>
       <input class="input" maxlength="12" value="{{name}}" bindinput="onNameInput" placeholder="请输入昵称" />
       <view class="form-label address-label">WebSocket 服务地址</view>
@@ -22,10 +22,11 @@
       <view class="status {{statusError ? 'error' : ''}}">{{status}}</view>
     </view>
     <view wx:if="{{roomCode}}" class="glass-card room-card">
-      <view class="room-code-head"><view><view class="muted">房间码 · 发给你的朋友</view><view class="room-code">{{roomCode}}</view></view><button class="copy-btn" bindtap="copyRoomCode">复制</button></view>
+      <view class="room-code-head"><view><view class="muted">房间码 · 发给你的朋友</view><view class="room-code">{{roomCode}}</view></view><view class="room-code-actions"><button class="copy-btn" bindtap="copyRoomCode">复制</button><button class="copy-btn share-btn" open-type="share">分享</button></view></view>
       <view class="room-grid">
-        <view wx:for="{{roomSeats}}" wx:key="id" class="room-seat {{item.empty ? 'empty' : 'ready'}}"><view class="room-avatar">{{item.empty ? item.seatNo : item.avatar}}</view><view class="room-name">{{item.empty ? '等待玩家' : item.name}}</view><view class="room-state">{{item.empty ? '空座位' : item.host ? '房主' : item.self ? '你' : '已加入'}}</view></view>
+        <view wx:for="{{roomSeats}}" wx:key="id" class="room-seat {{item.empty ? 'empty' : 'ready'}}"><view class="room-avatar">{{item.empty ? item.seatNo : item.avatar}}</view><view class="room-name">{{item.empty ? '等待玩家' : item.name}}</view><view class="room-state">{{item.empty ? '空座位' : item.statusText}}</view></view>
       </view>
+      <view class="ready-bar"><view class="ready-count">已准备 {{readyCount}}/4</view><button class="primary-btn ready-btn" bindtap="readyOnline" disabled="{{roomReady || !roomFull}}">{{roomReady ? '已准备' : roomFull ? '开始游戏' : '等待 4 人'}}</button></view>
     </view>
   </view>
 
@@ -35,7 +36,7 @@
     <view class="score-strip"><view class="score-team"><view class="score-label">{{gameView.myTeamLabel}}</view><view class="score-members">{{gameView.myTeamMembers}}</view><view class="score-number">{{gameView.myTotal}}</view></view><view class="score-team opponent"><view class="score-label">{{gameView.opponentTeamLabel}}</view><view class="score-members">{{gameView.opponentTeamMembers}}</view><view class="score-number">{{gameView.opponentTotal}}</view></view></view>
 
     <view class="table">
-      <view wx:for="{{gameView.players}}" wx:key="id" class="seat {{item.position}} {{item.isTurn ? 'is-turn' : ''}}"><view class="seat-avatar">{{item.avatar}}</view><view class="rating-badge">积分 {{item.rating}}</view><view class="capture-badge">{{item.captureText}}</view><view class="seat-text"><view class="seat-name">{{item.name}}<text wx:if="{{item.id == gameView.dealer}}" class="dealer">庄</text></view><view class="seat-state">{{item.stateText}}</view><view class="seat-tags"><text wx:if="{{item.finishText}}" class="finish-badge">{{item.finishText}}</text><text wx:if="{{item.jokerText}}" class="joker-badge">{{item.jokerText}}</text><text wx:if="{{item.callText}}" class="call-badge">{{item.callText}}</text><text wx:if="{{item.relationText && item.callText != item.relationText}}" class="team-tag">{{item.relationText}}</text></view></view></view>
+      <view wx:for="{{gameView.players}}" wx:key="id" class="seat {{item.position}} {{item.isTurn ? 'is-turn' : ''}}"><view class="seat-avatar">{{item.avatar}}</view><view class="seat-metrics"><view class="rating-badge">积分 {{item.rating}}</view><view class="capture-badge">{{item.captureText}}</view></view><view class="seat-text"><view class="seat-name">{{item.name}}<text wx:if="{{item.id == gameView.dealer}}" class="dealer">庄</text></view><view class="seat-state">{{item.stateText}}</view><view class="seat-tags"><text wx:if="{{item.finishText}}" class="finish-badge">{{item.finishText}}</text><text wx:if="{{item.jokerText}}" class="joker-badge">{{item.jokerText}}</text><text wx:if="{{item.callText}}" class="call-badge">{{item.callText}}</text><text wx:if="{{item.relationText && item.callText != item.relationText}}" class="team-tag">{{item.relationText}}</text></view></view></view>
 
       <view class="trick-zone"><view class="trick-title">{{gameView.trickTitle}}</view><view class="trick-subtitle">{{gameView.trickSubtitle}}</view><view class="played-row"><view wx:for="{{gameView.played}}" wx:key="id" class="played-card {{item.red ? 'red' : ''}}"><view class="card-rank">{{item.label}}</view><view class="card-suit">{{item.suitSymbol}}</view><view class="played-by">{{item.byAvatar}}</view></view></view><view class="trick-points">{{gameView.trickPointsText}}</view></view>
 

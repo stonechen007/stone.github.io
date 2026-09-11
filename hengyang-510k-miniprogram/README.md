@@ -7,7 +7,7 @@
 1. 打开微信开发者工具，导入本目录 `hengyang-510k-miniprogram/`。
 2. 将 `project.config.json` 中的 `touristappid` 替换成你的小程序 AppID；没有 AppID 时可先使用测试号或开发者工具的本地预览能力。
 3. 在首页填写 WebSocket 地址：开发工具本地联调可填 `ws://127.0.0.1:4173`，正式环境必须填公网 `wss://你的域名/ws`。
-4. 创建房间，把 6 位房间码发给另外 3 位玩家。
+4. 创建房间后点击分享，把带房间码的小程序链接发给另外 3 位玩家；4 人入座后，所有玩家分别点击“开始游戏”，准备人数达到 4/4 才会发牌。
 
 ## 本地联调
 
@@ -30,4 +30,5 @@ node hengyang-510k/online-server.js
 - `pages/index/index.wxml`：原生牌桌、房间和结算界面
 - `pages/index/index.wxss`：牌桌样式
 - `pages/index/index.js`：房间连接、牌局状态和操作同步
+- `pages/index/index.json`：页面默认横屏配置
 - `utils/rules.js`：牌型、炸弹、三带二和分数规则

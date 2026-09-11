@@ -12,6 +12,9 @@ Page({
     serverUrl: DEFAULT_SOCKET_URL,
     roomCodeInput: '',
     roomCode: '',
+    readyCount: 0,
+    roomReady: false,
+    roomFull: false,
     selfId: -1,
     hostId: 0,
     status: '请输入在线服务器地址，然后创建或加入房间。',
@@ -20,13 +23,17 @@ Page({
     gameView: null
   },
 
-  onLoad() {
+  onLoad(options = {}) {
     this.socket = null;
     this.socketOpen = false;
     this.pending = null;
     this.onlineRoom = null;
     this.game = null;
     this.selected = new Set();
+    const sharedRoomCode = (options.room || '').trim().toUpperCase();
+    if (/^[A-Z0-9]{6}$/.test(sharedRoomCode)) {
+      this.setData({ screen: 'lobby', roomCodeInput: sharedRoomCode, status: `已读取房间码 ${sharedRoomCode}，请输入昵称和服务地址后加入房间。` });
+    }
   },
 
   onUnload() {
@@ -95,13 +102,20 @@ Page({
 
   createRoom() { this.connect('create'); },
 
-  joinRoom() {
+    joinRoom() {
     const code = (this.data.roomCodeInput || '').trim().toUpperCase();
     if (code.length !== 6) {
       this.setStatus('请输入 6 位房间码。', true);
       return;
     }
     this.connect('join', code);
+    },
+
+  readyOnline() {
+    if (!this.onlineRoom || this.onlineRoom.started || this.onlineRoom.players.length < 4 || this.onlineRoom.ready?.[this.onlineRoom.selfId]) return;
+    if (!this.sendMessage({ type: 'ready', roomCode: this.onlineRoom.code })) return;
+    this.setData({ roomReady: true });
+    this.setStatus('你已点击开始，等待其他玩家准备。');
   },
 
   sendPending() {
@@ -141,9 +155,15 @@ Page({
     }
     if (message.type === 'room') {
       this.onlineRoom = { ...message.room, selfId: message.selfId, hostId: message.hostId };
-      this.setData({ roomCode: this.onlineRoom.code, selfId: this.onlineRoom.selfId, hostId: this.onlineRoom.hostId, roomSeats: this.makeRoomSeats() });
-      if (this.onlineRoom.players.length === 4 && this.onlineRoom.selfId === 0) this.startOnlineHostGame();
-      else this.setStatus(`房间 ${this.onlineRoom.code} · 已入座 ${this.onlineRoom.players.length}/4，等待其他玩家。`);
+      const ready = Array.isArray(this.onlineRoom.ready) ? this.onlineRoom.ready : [];
+      const readyCount = ready.filter(Boolean).length;
+      this.setData({ roomCode: this.onlineRoom.code, selfId: this.onlineRoom.selfId, hostId: this.onlineRoom.hostId, readyCount, roomReady: Boolean(ready[this.onlineRoom.selfId]), roomFull: this.onlineRoom.players.length === 4, roomSeats: this.makeRoomSeats() });
+      this.setStatus(this.onlineRoom.started ? '四人已准备，房主正在发牌。' : this.onlineRoom.players.length >= 4 ? `4 人已到齐 · 已准备 ${readyCount}/4，请全部点击开始游戏。` : `房间 ${this.onlineRoom.code} · 已入座 ${this.onlineRoom.players.length}/4，等待其他玩家加入。`);
+      return;
+    }
+    if (message.type === 'start') {
+      this.setStatus('4 位玩家已准备，房主正在发牌。');
+      if (this.onlineRoom?.selfId === 0) this.startOnlineHostGame();
       return;
     }
     if (message.type === 'state') {
@@ -155,9 +175,11 @@ Page({
 
   makeRoomSeats() {
     const players = this.onlineRoom?.players || [];
+    const ready = Array.isArray(this.onlineRoom?.ready) ? this.onlineRoom.ready : [];
     return Array.from({ length: 4 }, (_, id) => {
       const player = players.find(item => item.id === id);
-      return player ? { id, name: player.name, avatar: (player.name || '玩家').slice(0, 1), host: id === this.onlineRoom.hostId, self: id === this.onlineRoom.selfId, empty: false, seatNo: id + 1 } : { id, empty: true, seatNo: id + 1 };
+      const readyText = ready[id] ? '已准备' : id === this.onlineRoom.hostId ? '房主' : id === this.onlineRoom.selfId ? '你' : '已加入';
+      return player ? { id, name: player.name, avatar: (player.name || '玩家').slice(0, 1), host: id === this.onlineRoom.hostId, self: id === this.onlineRoom.selfId, ready: Boolean(ready[id]), statusText: `${readyText}${id === this.onlineRoom.selfId && ready[id] ? ' · 你' : ''}`, empty: false, seatNo: id + 1 } : { id, empty: true, seatNo: id + 1 };
     });
   },
 
@@ -635,11 +657,12 @@ Page({
     this.onlineRoom = null;
     this.game = null;
     this.selected.clear();
-    this.setData({ screen: 'welcome', roomCode: '', selfId: -1, roomSeats: Array.from({ length: 4 }, (_, id) => ({ id, empty: true, seatNo: id + 1 })), gameView: null });
+    this.setData({ screen: 'welcome', roomCode: '', selfId: -1, readyCount: 0, roomReady: false, roomFull: false, roomSeats: Array.from({ length: 4 }, (_, id) => ({ id, empty: true, seatNo: id + 1 })), gameView: null });
     this.setStatus('已退出房间。');
   },
 
   onShareAppMessage() {
-    return { title: '衡阳 510K · 四人在线牌局', path: '/pages/index/index' };
+    const roomCode = this.data.roomCode ? `?room=${encodeURIComponent(this.data.roomCode)}` : '';
+    return { title: '衡阳 510K · 四人在线牌局', path: `/pages/index/index${roomCode}` };
   }
 });
