@@ -303,7 +303,7 @@ Page({
       roundStatus: `${this.game.online ? `在线房间 ${this.game.onlineRoomCode || ''} · ` : ''}${this.game.mode === 'call' ? '发牌完成 · 朋友未知 · 叫牌阶段' : this.game.mode === 'result' ? '本局结算完成' : `第 ${this.game.trickNumber || 1} 轮 · ${this.game.lastPlay ? '跟牌中' : '等待领出'}`}`,
       roundStatusText: this.game.mode === 'call' ? '叫牌阶段' : this.game.mode === 'result' ? '已结束' : '进行中',
       trickTitle: this.game.mode === 'call' ? '先决定要不要宣起' : this.game.mode === 'result' ? '本局分数已落袋' : this.game.turn === localId ? (this.game.lastPlay ? '到你跟牌' : '到你领出') : `${this.game.players[this.game.turn]?.name || '玩家'} 正在出牌`,
-      trickSubtitle: this.game.mode === 'result' ? '下一局庄家为本局最先出完牌的人' : this.game.lastPlay ? `${this.game.players[this.game.lastPlay.player]?.name || '玩家'} 的 ${rules.TYPE_NAMES[this.game.lastPlay.combo.type]} · 其余玩家可选择不要` : '黑桃 3 先出；宣起或加宣后由喊牌者先出',
+      trickSubtitle: this.game.mode === 'result' ? '下一局庄家为本局最先出完牌的人' : this.game.lastPlay ? `${this.game.players[this.game.lastPlay.player]?.name || '玩家'} 的 ${rules.TYPE_NAMES[this.game.lastPlay.combo.type]} · 其余玩家可选择不要` : this.game.firstLeadPending ? '未宣第一轮出牌必须包含黑桃 3' : '宣起或加宣后由喊牌者先出',
       trickPointsText: `${rules.cardsPoints((this.game.trick || []).map(entry => entry.card))} 分`,
       lastTypeText: this.game.lastPlay ? rules.TYPE_NAMES[this.game.lastPlay.combo.type] : '自由领出',
       callStateText: this.game.mode === 'call' ? '待决定' : this.game.declarations.length === 2 ? '宣起 + 加宣 · ×4' : this.game.declarations.length === 1 ? '宣起 · ×2' : '未宣',
@@ -312,7 +312,7 @@ Page({
       pendingCalls: this.game.callChoices ? this.game.callChoices.filter(choice => choice !== null).length : 0,
       canPlay: this.game.mode === 'playing' && this.game.turn === localId && this.game.players[localId]?.active && this.selected.size > 0,
       canPass: this.game.mode === 'playing' && this.game.turn === localId && this.game.players[localId]?.active && this.game.lastPlay && this.game.lastPlay.player !== localId,
-      actionText: this.game.mode === 'call' ? '先完成叫牌，再进入出牌阶段' : this.game.mode === 'result' ? '本局已结束，点击再来一局' : this.game.turn === localId ? (this.game.lastPlay ? `轮到你：选择能压过 ${rules.TYPE_NAMES[this.game.lastPlay.combo.type]} 的牌，或选择不要` : '轮到你领出：可以出任意合法牌型') : `${this.game.players[this.game.turn]?.name || '玩家'} 思考中…`,
+      actionText: this.game.mode === 'call' ? '先完成叫牌，再进入出牌阶段' : this.game.mode === 'result' ? '本局已结束，点击再来一局' : this.game.turn === localId ? (this.game.lastPlay ? `轮到你：选择能压过 ${rules.TYPE_NAMES[this.game.lastPlay.combo.type]} 的牌，或选择不要` : this.game.firstLeadPending ? '未宣第一轮必须带黑桃 3，可出单张、对子、连对或三带二' : '轮到你领出：可以出任意合法牌型') : `${this.game.players[this.game.turn]?.name || '玩家'} 思考中…`,
       result
     } });
   },
@@ -334,7 +334,7 @@ Page({
     this.game = {
       mode: 'call', round: previous ? previous.round + 1 : 1, dealer, players, deck,
       declarations: [], callChoices: options.online ? [null, null, null, null] : null, callMultiplier: 1, teams: null, lead: null, turn: null,
-      lastPlay: null, trick: [], passCount: 0, trickNumber: 0, totalCaptured: [0, 0, 0, 0], finishOrder: [], penalties: [], log: [], clock: 0, autoClock: 0,
+      lastPlay: null, trick: [], passCount: 0, trickNumber: 0, firstLeadPending: false, totalCaptured: [0, 0, 0, 0], finishOrder: [], penalties: [], log: [], clock: 0, autoClock: 0,
       hintId: null, online: !!options.online, localPlayerId: options.localPlayerId ?? 0, hostId: options.hostId ?? 0, onlineRoomCode: options.roomCode || null
     };
     this.selected.clear();
@@ -392,6 +392,7 @@ Page({
       this.game.teams = big === small ? [[big], [0, 1, 2, 3].filter(id => id !== big)] : [[big, small], [0, 1, 2, 3].filter(id => id !== big && id !== small)];
       this.game.lead = this.game.players.findIndex(player => player.hand.some(card => card.suit === 3 && card.rank === 3));
     }
+    this.game.firstLeadPending = this.game.declarations.length === 0;
     if (!this.game.teams[0].includes(this.getLocalId())) this.game.teams.reverse();
     this.game.turn = this.game.lead;
     this.game.players.forEach(player => { player.team = this.game.teams.findIndex(team => team.includes(player.id)); });
@@ -425,6 +426,7 @@ Page({
 
   submitPlay(playerId, cards) {
     const combo = rules.evaluate(cards);
+    if (this.game.firstLeadPending && (playerId !== this.game.lead || !cards.some(card => card.suit === 3 && card.rank === 3) || !['single', 'pair', 'chainPair', 'triplePair'].includes(combo?.type))) return false;
     if (!combo || (this.game.lastPlay && !rules.canBeat(combo, this.game.lastPlay.combo))) return false;
     const player = this.game.players[playerId];
     const ids = new Set(cards.map(card => card.id));
@@ -436,6 +438,7 @@ Page({
       player.playedJokers = [...new Set([...(player.playedJokers || []), ...jokerLabels])];
     }
     this.game.lastPlay = { player: playerId, combo };
+    this.game.firstLeadPending = false;
     this.game.trick.push(...cards.map(card => ({ card, player: playerId })));
     this.game.passCount = 0;
     this.game.trickNumber++;
@@ -556,6 +559,10 @@ Page({
     const cards = this.game.players[localId].hand.filter(card => this.selected.has(card.id));
     const combo = rules.evaluate(cards);
     if (!combo) { const message = '这组牌无法组成合法牌型，请重新选择。'; this.addLog(`错误牌型：${message}`); this.showRuleError(message); this.refreshView(); return; }
+    if (this.game.firstLeadPending && (!cards.some(card => card.suit === 3 && card.rank === 3) || !['single', 'pair', 'chainPair', 'triplePair'].includes(combo.type))) {
+      const message = '未宣起第一轮必须带黑桃 3，且只能出单张、对子、连对或三带二。';
+      this.addLog(`出牌无效：${message}`); this.showRuleError(message); this.refreshView(); return;
+    }
     if (this.game.lastPlay && !rules.canBeat(combo, this.game.lastPlay.combo)) { const message = `当前牌型不能压过桌面的${rules.TYPE_NAMES[this.game.lastPlay.combo.type]}，请选择更大的同牌型或炸弹。`; this.addLog(`出牌无效：${message}`); this.showRuleError(message); this.refreshView(); return; }
     if (this.game.online && localId !== this.game.hostId) {
       this.sendAction({ type: 'play', cardIds: cards.map(card => card.id) });
@@ -602,7 +609,12 @@ Page({
   findHint(playerId) {
     const hand = [...this.game.players[playerId].hand].sort((a, b) => a.rank - b.rank);
     const previous = this.game.lastPlay?.combo || null;
-    if (!previous) return hand.length ? [hand[0]] : null;
+    if (!previous) {
+      const required = this.game.firstLeadPending && playerId === this.game.lead
+        ? hand.find(card => card.suit === 3 && card.rank === 3)
+        : null;
+      return required ? [required] : (hand.length ? [hand[0]] : null);
+    }
     const targetSizes = previous.type === 'straight510' || previous.type === 'mixed510' ? [3, 6, 9, 12] : previous.type === 'chainPair' ? [previous.length * 2] : [previous.length];
     const choose = size => {
       let found = null;

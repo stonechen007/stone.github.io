@@ -7,7 +7,7 @@ const SUITS = [
     { symbol: '♠', name: '黑桃', color: 'black' }
 ];
 const RANKS = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-const TYPE_NAMES = { single: '单张', pair: '对子', straight: '顺子', chainPair: '连对', triplePair: '三带二', tripleChain: '三张连对', rocket: '王炸', four: '地炸', straight510: '正 510K', mixed510: '副 510K' };
+const TYPE_NAMES = { single: '单张', pair: '对子', chainPair: '连对', triplePair: '三带二', tripleChain: '三张连对', rocket: '王炸', four: '地炸', straight510: '正 510K', mixed510: '副 510K' };
 
 function rankLabel(rank) {
     return ({ 11: 'J', 12: 'Q', 13: 'K', 14: 'A', 15: '2', 16: '小王', 17: '大王' })[rank] || String(rank);
@@ -129,12 +129,11 @@ function evaluate(cards) {
     if (combo510) return combo510;
     if (list.length === 1) return { type: 'single', rank: list[0].rank, length: 1, cards: list };
     if (list.length === 2 && unique.length === 1 && unique[0] !== 15) return { type: 'pair', rank: unique[0], length: 2, cards: list };
-    if (list.length >= 3 && unique.length === list.length && unique.every(rank => rank >= 4 && rank <= 14) && unique.every((rank, index) => index === 0 || rank === unique[index - 1] + 1)) return { type: 'straight', rank: unique[unique.length - 1], length: list.length, cards: list };
     if (list.length >= 4 && list.length % 2 === 0 && unique.length === list.length / 2 && unique.every(rank => count.get(rank) === 2 && rank !== 15) && unique.every((rank, index) => index === 0 || rank === unique[index - 1] + 1)) return { type: 'chainPair', rank: unique[unique.length - 1], length: unique.length, cards: list };
     const tripleChain = evaluateTripleChain(list, count);
     if (tripleChain) return tripleChain;
     if (list.length === 5) {
-        const tripleRanks = unique.filter(rank => rank !== 15 && count.get(rank) === 3);
+        const tripleRanks = unique.filter(rank => rank !== 15 && count.get(rank) >= 3);
         if (tripleRanks.length === 1) return { type: 'triplePair', rank: tripleRanks[0], length: 5, cards: list };
     }
     return null;
