@@ -100,7 +100,7 @@
             content: ""; position: absolute; inset: 16px; border: 1px solid rgba(255,237,181,.14); border-radius: 15px; pointer-events: none;
         }
         .table-surface::before {
-            content: "衡阳 · 510K"; position: absolute; top: 32%; left: 50%; transform: translate(-50%, -50%);
+            content: "巷子口510K争霸赛"; position: absolute; top: 32%; left: 50%; transform: translate(-50%, -50%);
             color: rgba(255,236,178,.085); font: 800 34px/1 Georgia, serif; letter-spacing: .18em; white-space: nowrap; pointer-events: none;
         }
 
@@ -562,9 +562,9 @@
         </header>
 
         <main class="game-layout">
-            <section class="table-panel" aria-label="衡阳510K牌桌">
+            <section class="table-panel" aria-label="巷子口510K争霸赛牌桌">
                 <div class="table-toolbar">
-                    <div class="table-heading"><div><h2>南岳牌桌</h2><p id="roundStatus">等待开局 · 54张整副牌</p></div></div>
+                    <div class="table-heading"><div><h2>巷子口510K争霸赛</h2><p id="roundStatus">等待开局 · 54张整副牌</p></div></div>
                     <span class="round-pill" id="roundPill">第 1 局 · 未开始</span>
                 </div>
                 <div class="table-surface" id="tableSurface">
@@ -580,7 +580,7 @@
                         <div class="avatar">龙</div><div class="seat-metrics"><span class="rating-badge" id="rating-3">积分 100</span><span class="capture-badge" id="capture-3">抓分 0</span></div><div class="seat-info"><div class="seat-name">龙乃几</div><span class="seat-state" id="state-3">等候中</span><div class="seat-badges" id="badges-3"></div></div>
                     </div>
                     <div class="seat seat-bottom" id="seat-0">
-                        <div class="avatar">我</div><div class="seat-metrics"><span class="rating-badge" id="rating-0">积分 100</span><span class="capture-badge" id="capture-0">抓分 0</span></div><div class="seat-info"><div class="seat-name">你 · 南家</div><span class="seat-state" id="state-0">等候中</span><div class="seat-badges" id="badges-0"></div></div>
+                        <div class="avatar">彬</div><div class="seat-metrics"><span class="rating-badge" id="rating-0">积分 100</span><span class="capture-badge" id="capture-0">抓分 0</span></div><div class="seat-info"><div class="seat-name">彬古佬</div><span class="seat-state" id="state-0">等候中</span><div class="seat-badges" id="badges-0"></div></div>
                     </div>
 
                     <div class="trick-zone" id="trickZone">
@@ -603,7 +603,7 @@
                         <div class="result-card">
                             <div class="eyebrow">ROUND COMPLETE · 本局结束</div>
                             <div class="result-type" id="resultType">小赢</div>
-                            <h2 id="resultTitle">南家获胜</h2>
+                            <h2 id="resultTitle">彬古佬获胜</h2>
                             <p id="resultDesc">本局分数已结算，下一局由本局最先出完牌的人坐庄。</p>
                             <div class="result-score"><div>我方最终分<strong id="resultMyScore">0</strong></div><div>对手最终分<strong id="resultTheirScore">0</strong></div></div>
                             <div class="result-rating" id="resultRating">本局积分：我方 +0 · 对手 -0</div>
@@ -653,7 +653,7 @@
         <div class="online-card">
             <div class="rules-head"><h2>在线组局 · 4 人一桌</h2><button class="close-btn" id="closeOnline">×</button></div>
             <p class="online-intro">创建房间后分享链接，4 个座位坐满且所有玩家点击“开始游戏”后才会发牌。牌局由房主同步，所有人看到的出牌、抓分和结算一致。</p>
-            <div class="online-fields"><label>你的昵称<input id="onlineName" maxlength="12" value="南家"></label><label>服务地址<input id="onlineServerUrl" value="ws://127.0.0.1:4173" spellcheck="false"></label></div>
+            <div class="online-fields"><label>你的昵称<input id="onlineName" maxlength="12" value="彬古佬"></label><label>服务地址<input id="onlineServerUrl" value="ws://127.0.0.1:4173" spellcheck="false"></label></div>
             <div class="online-actions"><button class="primary-btn" id="createRoomBtn">创建房间</button><button class="soft-btn" id="refreshRoomBtn" disabled>刷新连接</button></div>
             <div class="online-join"><label>加入已有房间<input id="roomCodeInput" maxlength="6" placeholder="输入 6 位房间码"></label><button class="soft-btn" id="joinRoomBtn">加入房间</button></div>
             <div class="online-status" id="onlineStatus">尚未连接服务器。当前默认地址：ws://127.0.0.1:4173</div>
@@ -696,8 +696,8 @@
                 { symbol: '♠', name: '黑桃', color: 'black' }
             ];
             const RANKS = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-            const PLAYER_NAMES = ['你', '立权几', '徐锦江', '龙乃几'];
-            const PLAYER_SHORT = ['我', '立', '徐', '龙'];
+            const PLAYER_NAMES = ['彬古佬', '立权几', '徐锦江', '龙乃几'];
+            const PLAYER_SHORT = ['彬', '立', '徐', '龙'];
             const TYPE_NAMES = { single: '单张', pair: '对子', straight: '顺子', chainPair: '连对', triplePair: '三带二', tripleChain: '三张连对', rocket: '王炸', four: '地炸', straight510: '正 510K', mixed510: '副 510K' };
 
             const $ = (id) => document.getElementById(id);

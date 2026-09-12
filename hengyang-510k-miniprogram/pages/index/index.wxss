@@ -66,7 +66,7 @@ page { background: #071719; }
 .score-number { position: absolute; right: 20rpx; bottom: 14rpx; color: #ffe3a2; font: 900 45rpx/1 Georgia, serif; }
 .score-team.opponent .score-number { color: #ffb3a4; }
 .table { position: relative; height: 920rpx; overflow: hidden; border: 1rpx solid rgba(244, 197, 106, .25); border-radius: 28rpx; background: radial-gradient(ellipse at center, #1b554b 0%, #103a39 55%, #0a282b 100%); }
-.table::before { content: "衡阳 · 510K"; position: absolute; top: 37%; left: 50%; transform: translate(-50%, -50%); color: rgba(255, 236, 178, .09); font: 800 48rpx/1 Georgia, serif; letter-spacing: .16em; white-space: nowrap; }
+.table::before { content: "巷子口510K争霸赛"; position: absolute; top: 37%; left: 50%; transform: translate(-50%, -50%); color: rgba(255, 236, 178, .09); font: 800 48rpx/1 Georgia, serif; letter-spacing: .16em; white-space: nowrap; }
 .seat { position: absolute; z-index: 2; display: flex; align-items: center; gap: 12rpx; min-width: 210rpx; }
 .seat-bottom { left: 24rpx; bottom: 232rpx; }
 .seat-left { left: 22rpx; top: 39%; }

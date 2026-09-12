@@ -1,14 +1,14 @@
 const rules = require('../../utils/rules');
 
 const DEFAULT_SOCKET_URL = 'wss://example.com/ws';
-const DEFAULT_NAMES = ['你', '立权几', '徐锦江', '龙乃几'];
+const DEFAULT_NAMES = ['彬古佬', '立权几', '徐锦江', '龙乃几'];
 const SEAT_POSITIONS = ['seat-bottom', 'seat-left', 'seat-top', 'seat-right'];
 
 Page({
   data: {
     screen: 'welcome',
     showRules: false,
-    name: '南家',
+    name: '彬古佬',
     serverUrl: DEFAULT_SOCKET_URL,
     roomCodeInput: '',
     roomCode: '',
@@ -292,7 +292,7 @@ Page({
       players,
       hand,
       played,
-      localName: this.game.players[localId]?.name || '你',
+      localName: this.game.players[localId]?.name || '彬古佬',
       myTeamLabel: relationshipVisible ? (this.game.teams?.[myTeamId]?.length === 1 ? '我方总分 · 单打' : '我方总分') : '队伍未知',
       opponentTeamLabel: relationshipVisible ? (this.game.teams?.[opponentTeamId]?.length === 1 ? '对手总分 · 单打' : '对手总分') : '队伍未知',
       myTotal: relationshipVisible ? myTotal : '—',
@@ -663,6 +663,6 @@ Page({
 
   onShareAppMessage() {
     const roomCode = this.data.roomCode ? `?room=${encodeURIComponent(this.data.roomCode)}` : '';
-    return { title: '衡阳 510K · 四人在线牌局', path: `/pages/index/index${roomCode}` };
+    return { title: '巷子口510K争霸赛 · 四人在线牌局', path: `/pages/index/index${roomCode}` };
   }
 });
