@@ -81,6 +81,11 @@ function canPartitionMixed510(list, groupCount) {
     return search(0);
 }
 
+function is510Group(group, sameSuit = false) {
+    const ranks = new Set(group.map(card => card.rank));
+    return group.length === 3 && ranks.size === 3 && [5, 10, 13].every(rank => ranks.has(rank)) && (!sameSuit || new Set(group.map(card => card.suit)).size === 1);
+}
+
 function evaluate510(list) {
     if (list.length < 3 || list.length % 3 !== 0 || list.some(card => card.joker)) return null;
     const groupCount = list.length / 3;
@@ -92,7 +97,7 @@ function evaluate510(list) {
         count.set(card.rank, (count.get(card.rank) || 0) + 1);
     });
     const positiveSuits = [...bySuit.entries()]
-        .filter(([, group]) => group.length === 3 && new Set(group.map(card => card.rank)).size === 3 && [5, 10, 13].every(rank => group.some(card => card.rank === rank)))
+        .filter(([, group]) => is510Group(group, true))
         .map(([suit]) => suit)
         .sort((a, b) => b - a);
     if (positiveSuits.length === groupCount && bySuit.size === groupCount) return { type: 'straight510', rank: positiveSuits[0], strength: positiveSuits, groupCount, length: list.length, cards: list };
@@ -135,24 +140,32 @@ function evaluate(cards) {
     return null;
 }
 
-function canBeat(candidate, previous) {
-    if (!candidate) return false;
-    if (!previous) return true;
-    const bombs = ['rocket', 'four', 'straight510', 'mixed510'];
+const BOMB_TYPES = ['rocket', 'four', 'straight510', 'mixed510'];
+
+function compareBombs(candidate, previous) {
+    // 王炸 > 四张炸 > 正 510K > 副 510K > 一切普通牌型。
     if (candidate.type === 'rocket') return true;
     if (previous.type === 'rocket') return false;
-    if (candidate.type === 'four') return previous.type !== 'rocket' && (previous.type !== 'four' || candidate.rank > previous.rank);
+    if (candidate.type === 'four') return previous.type !== 'four' || candidate.rank > previous.rank;
+    if (previous.type === 'four') return false;
     if (candidate.type === 'straight510') {
-        if (previous.type === 'four' || previous.type === 'rocket') return false;
         if (previous.type === 'straight510') return candidate.groupCount > previous.groupCount || (candidate.groupCount === previous.groupCount && compareStrength(candidate.strength, previous.strength) > 0);
+        // 正 510K 可以压副 510K，也可以压任意普通牌型。
         return true;
     }
     if (candidate.type === 'mixed510') {
-        if (previous.type === 'four' || previous.type === 'rocket' || previous.type === 'straight510') return false;
+        if (previous.type === 'straight510') return false;
         if (previous.type === 'mixed510') return candidate.groupCount > previous.groupCount;
+        // 副 510K 可以压任意普通牌型，但不能压正 510K/四张炸/王炸。
         return true;
     }
-    if (bombs.includes(previous.type)) return false;
+    return false;
+}
+
+function canBeat(candidate, previous) {
+    if (!candidate) return false;
+    if (!previous) return true;
+    if (BOMB_TYPES.includes(candidate.type) || BOMB_TYPES.includes(previous.type)) return compareBombs(candidate, previous);
     if (candidate.type !== previous.type) return false;
     if (candidate.type === 'tripleChain') return candidate.groupCount === previous.groupCount && candidate.rank > previous.rank;
     return candidate.length === previous.length && candidate.rank > previous.rank;

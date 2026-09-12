@@ -226,3 +226,65 @@ page { background: #071719; }
   .action-buttons button { width: 118rpx; padding-top: 12rpx; padding-bottom: 12rpx; }
   .tool-row { display: none; }
 }
+
+/* 横屏牌桌优先：让小程序直接铺满可视区域，顶部状态与底部操作悬浮在牌桌上。 */
+@media (orientation: landscape) {
+  page { width: 100%; min-height: 100vh; overflow: visible; }
+  .page-shell { width: 100%; height: auto; min-height: 100vh; padding: 0; overflow: visible; }
+  .game-screen { position: relative; width: 100%; height: 100vh; min-height: 300px; padding: 0; overflow: hidden; }
+  .game-head { position: absolute; z-index: 12; top: calc(10rpx + env(safe-area-inset-top)); right: calc(18rpx + env(safe-area-inset-right)); left: calc(18rpx + env(safe-area-inset-left)); min-height: 44rpx; pointer-events: none; }
+  .game-head .round-pill { pointer-events: auto; box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, .16); }
+  .table { width: 100%; height: 100vh; min-height: 300px; border-right: 0; border-left: 0; border-radius: 0; }
+  .table::before { top: 34%; }
+  .table::after { content: ""; position: absolute; inset: 12rpx; z-index: 1; border: 1rpx solid rgba(255, 237, 181, .1); border-radius: 22rpx; pointer-events: none; }
+  .seat { z-index: 3; }
+  .seat-top { top: 68rpx; }
+  .seat-bottom { bottom: 184rpx; }
+  .trick-zone { z-index: 4; }
+  .hand-dock { right: calc(14rpx + env(safe-area-inset-right)); bottom: calc(10rpx + env(safe-area-inset-bottom)); left: calc(14rpx + env(safe-area-inset-left)); background: linear-gradient(180deg, rgba(5, 22, 24, .7), rgba(5, 18, 20, .94)); box-shadow: 0 14rpx 32rpx rgba(0, 0, 0, .28); }
+  .action-bar { position: absolute; z-index: 11; right: calc(18rpx + env(safe-area-inset-right)); bottom: calc(118rpx + env(safe-area-inset-bottom)); left: calc(18rpx + env(safe-area-inset-left)); margin: 0; padding: 0; pointer-events: none; }
+  .action-hint, .action-buttons { pointer-events: auto; }
+  .action-hint { max-width: 54%; padding: 8rpx 12rpx; border-radius: 999rpx; background: rgba(5, 22, 24, .68); }
+  .action-buttons button { min-height: 72rpx; box-shadow: 0 8rpx 18rpx rgba(0, 0, 0, .18); }
+  .call-panel { max-height: calc(100vh - 180rpx); overflow-y: auto; }
+}
+
+/* 低矮手机横屏：进一步压缩牌桌装饰和牌面，但保留可点按的按钮尺寸。 */
+@media (orientation: landscape) and (max-height: 430px) {
+  .game-head { top: calc(6rpx + env(safe-area-inset-top)); min-height: 36rpx; }
+  .mini-mark { width: 36rpx; height: 36rpx; font-size: 17rpx; }
+  .game-name { font-size: 25rpx; }
+  .round-status { display: none; }
+  .round-pill { padding: 9rpx 11rpx; font-size: 15rpx; }
+  .table::before { top: 31%; font-size: 28rpx; }
+  .table::after { inset: 8rpx; border-radius: 16rpx; }
+  .seat-top { top: 48rpx; }
+  .seat-bottom { bottom: 166rpx; }
+  .seat-left, .seat-right { top: 20%; }
+  .seat-avatar, .seat-top .seat-avatar { width: 56rpx; height: 56rpx; border-radius: 16rpx; font-size: 23rpx; }
+  .seat-name { font-size: 17rpx; }
+  .seat-state { display: none; }
+  .rating-badge, .capture-badge { padding: 4rpx 6rpx; font-size: 13rpx; }
+  .dealer, .team-tag, .call-badge, .finish-badge, .joker-badge { padding: 3rpx 5rpx; font-size: 12rpx; }
+  .trick-zone { top: 39%; width: 52%; min-height: 132rpx; padding: 13rpx; }
+  .trick-title { font-size: 18rpx; }
+  .trick-subtitle { margin-top: 5rpx; font-size: 14rpx; }
+  .hand-dock { right: calc(8rpx + env(safe-area-inset-right)); bottom: calc(6rpx + env(safe-area-inset-bottom)); left: calc(8rpx + env(safe-area-inset-left)); min-height: 86rpx; padding: 7rpx 8rpx 5rpx; border-radius: 12rpx; }
+  .hand-title, .hand-title text { font-size: 15rpx; }
+  .hand-scroll { margin-top: 6rpx; }
+  .hand-row { padding-top: 5rpx; }
+  .card-button, .playing-card { width: 38rpx; height: 54rpx; }
+  .card-button { flex-basis: 38rpx; margin-left: -7rpx; }
+  .playing-card { padding: 4rpx 3rpx; border-radius: 5rpx; }
+  .playing-card .card-rank, .card-rank { font-size: 11rpx; }
+  .playing-card .card-suit { font-size: 8rpx; }
+  .card-center { font-size: 14rpx; }
+  .action-bar { right: calc(10rpx + env(safe-area-inset-right)); bottom: calc(100rpx + env(safe-area-inset-bottom)); left: calc(10rpx + env(safe-area-inset-left)); }
+  .action-hint { max-width: 45%; padding: 6rpx 8rpx; font-size: 14rpx; }
+  .action-buttons { gap: 6rpx; }
+  .action-buttons button { width: 116rpx; min-height: 64rpx; font-size: 18rpx; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

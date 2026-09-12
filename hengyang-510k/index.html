@@ -402,7 +402,7 @@
             .call-panel h3 { margin: 6px 0 4px; font-size: 16px; }
             .call-panel p { margin-bottom: 10px; font-size: 10px; }
             .call-buttons button { min-width: 90px; padding: 7px 9px; }
-            .hand-dock { right: 8px; bottom: 7px; left: 8px; min-height: 91px; padding: 7px 7px 5px; border-radius: 11px; }
+            .hand-dock { right: 8px; bottom: calc(44px + env(safe-area-inset-bottom)); left: 8px; min-height: 91px; padding: 7px 7px 5px; border-radius: 11px; }
             .hand-head, .hand-head strong { font-size: 9px; }
             .tiny-btn { padding: 2px 4px; font-size: 9px; }
             .hand-cards { min-height: 57px; padding-inline: 0; }
@@ -439,6 +439,103 @@
             .result-score strong { font-size: 25px; }
             .result-rating { margin-bottom: 10px; font-size: 9px; }
             .result-card .primary-btn { padding: 8px 12px; font-size: 10px; }
+        }
+
+        /* 响应式牌桌：平板横屏进入“牌桌优先”布局，避免侧栏把手牌挤到首屏之外。 */
+        @media (orientation: landscape) and (min-width: 721px) and (max-width: 1200px) {
+            body { min-height: 100svh; overflow-x: hidden; }
+            .app-shell { width: 100%; min-height: 100svh; padding: 0 12px 12px; }
+            .topbar { height: 60px; gap: 12px; }
+            .brand { gap: 9px; }
+            .brand-mark { width: 36px; height: 36px; border-radius: 11px 11px 11px 3px; }
+            .brand-copy strong { font-size: 15px; }
+            .brand-copy span { margin-top: 5px; font-size: 9px; }
+            .top-note { display: none; }
+            .top-actions { gap: 6px; }
+            .top-actions .ghost-btn { padding: 8px 10px; font-size: 11px; }
+            .game-layout { display: block; }
+            .side-panel { display: none; }
+            .table-panel { padding: 8px; border-radius: 17px; }
+            .table-toolbar { padding: 0 3px 8px; }
+            .table-heading h2 { font-size: 15px; }
+            .table-heading p { margin-top: 3px; font-size: 10px; }
+            .round-pill { padding: 6px 9px; font-size: 10px; }
+            .table-surface {
+                height: calc(100vh - 196px);
+                height: calc(100svh - 196px);
+                min-height: 460px;
+                max-height: 720px;
+                border-radius: 15px;
+            }
+            .table-surface::after { inset: 11px; border-radius: 12px; }
+            .table-surface::before { top: 30%; font-size: 26px; }
+            .seat { min-width: 128px; gap: 7px; }
+            .seat-left { left: 14px; }
+            .seat-right { right: 14px; }
+            .seat-bottom { bottom: 164px; left: 18px; }
+            .seat-top { top: 18px; width: 132px; gap: 5px; }
+            .seat-top .seat-metrics { top: 2px; left: calc(50% + 26px); }
+            .avatar { width: 38px; height: 38px; border-radius: 12px; font-size: 15px; }
+            .seat-top .avatar { width: 34px; height: 34px; border-radius: 11px; }
+            .seat-name { font-size: 11px; }
+            .seat-state { margin-top: 3px; font-size: 9px; }
+            .seat-badges { gap: 3px; margin-top: 4px; }
+            .dealer-badge, .call-badge, .team-badge, .finish-badge, .joker-badge,
+            .rating-badge, .capture-badge { padding: 4px 5px; font-size: 8px; }
+            .seat-metrics { gap: 3px; }
+            .trick-zone { top: 40%; width: 50%; min-height: 142px; }
+            .hand-dock { right: 14px; bottom: 12px; left: 14px; min-height: 132px; padding: 12px 12px 9px; }
+            .hand-cards { min-height: 84px; padding-top: 7px; }
+            .card-button, .playing-card { width: 61px; height: 83px; }
+            .card-button { flex-basis: 61px; margin-left: -7px; }
+            .playing-card { padding: 8px 7px; border-radius: 9px; }
+            .card-rank { font-size: 18px; }
+            .card-center { font-size: 25px; }
+            .action-bar { min-height: 50px; padding-top: 8px; }
+            .action-buttons .primary-btn, .action-buttons .soft-btn { min-width: 100px; min-height: 40px; padding: 9px 12px; }
+        }
+
+        /* 小屏横屏使用动态视口高度，刘海/底部手势区不会遮住操作和手牌。 */
+        @media (orientation: landscape) and (max-height: 600px) {
+            body { min-height: 100svh; overflow: hidden; }
+            .app-shell { min-height: 100svh; padding: 0 6px calc(6px + env(safe-area-inset-bottom)); }
+            .topbar { height: 45px; }
+            .table-panel { padding: 5px; border-radius: 12px; }
+            .table-toolbar { padding: 1px 3px 6px; }
+            .table-surface { height: calc(100vh - 135px); height: calc(100svh - 135px); min-height: 275px; max-height: none; }
+            .seat { min-width: 0; gap: 5px; }
+            .seat-top { top: 9px; width: 104px; gap: 3px; }
+            .seat-left { top: 20%; left: 8px; }
+            .seat-right { top: 20%; right: 8px; }
+            .seat-bottom { bottom: 122px; left: 10px; }
+            .avatar, .seat-top .avatar { width: 32px; height: 32px; border-radius: 9px; font-size: 13px; }
+            .seat-top .avatar { width: 30px; height: 30px; }
+            .seat-top .seat-metrics { top: 0; left: calc(50% + 18px); }
+            .trick-zone { top: 42%; width: 54%; min-height: 95px; }
+            .hand-dock { right: 8px; bottom: 7px; left: 8px; min-height: 91px; padding: 7px 7px 5px; border-radius: 11px; }
+            .hand-cards { min-height: 57px; padding-inline: 0; }
+            .card-button, .playing-card { width: 42px; height: 59px; }
+            .card-button { flex-basis: 42px; margin-left: -8px; }
+            .playing-card { padding: 5px 4px; border-radius: 6px; }
+            .playing-card .card-rank, .card-rank { font-size: 12px; }
+            .playing-card .card-suit { font-size: 8px; }
+            .card-center { font-size: 16px; }
+            .card-corner { display: none; }
+            .action-bar { position: fixed; z-index: 20; right: 6px; bottom: calc(4px + env(safe-area-inset-bottom)); left: 6px; min-height: 0; padding: 0; justify-content: flex-end; pointer-events: none; }
+            .action-hint { display: none; }
+            .action-buttons { pointer-events: auto; }
+            .action-buttons .primary-btn, .action-buttons .soft-btn { min-width: 72px; min-height: 38px; }
+            .action-buttons .primary-btn, .action-buttons .soft-btn,
+            .call-buttons button { min-height: 38px; }
+            .hand-cards { overscroll-behavior-x: contain; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+        }
+
+        @media (min-width: 1201px) {
+            .table-surface { height: clamp(560px, calc(100svh - 270px), 720px); min-height: 560px; }
         }
     </style>
 </head>
@@ -567,7 +664,7 @@
                 <div class="rule-block"><h4>基础分</h4><p>5 计 5 分，10 和 K 各计 10 分，全副牌共 100 分。每轮最后出牌的人收走桌面分牌，并获得下一轮出牌权。</p></div>
                 <div class="rule-block"><h4>朋友与队形</h4><p>大小王分属不同玩家时，两人是朋友；同一人拿到大小王则单打三人。宣起者一人一队，加宣后只剩两人对打。</p></div>
                 <div class="rule-block"><h4>普通牌型</h4><p>单张、对子（2 不能成对）、顺子（至少 3 张，从 4 起，不含 3/2/王）、连对（2 连对起，2 不能成对）、三带二、三张连对。相同牌型才能压。</p></div>
-                <div class="rule-block"><h4>炸弹顺序</h4><p>王炸（双王）＞地炸（四张一样，4 个 2 最大）＞正 510K（同花色）＞副 510K（5/10/K 三张花色各不相同）。510K 可多个组合连出，炸弹可压所有普通牌。</p></div>
+                <div class="rule-block"><h4>特殊炸弹</h4><p>510K 是特殊炸弹：王炸（双王）＞地炸（四张一样，4 个 2 最大）＞正 510K（同花色）＞副 510K（5/10/K 三张花色各不相同）＞普通牌型。510K 每 3 张为一组，可以多组连续出；正 510K 比副 510K 大。</p></div>
                 <div class="rule-block wide"><h4>结算</h4><p>同一队有人手牌全部打完，本局结束；未打出的牌不计分。根据庄家方分数判断胜负：大光 +3、小光 +2、小赢 +1。首个出完牌者的队友不是最后出完时，按规则发生 25 分罚分转移。宣起翻倍，加宣在单挑中再翻倍。</p></div>
             </div>
         </div>
@@ -1163,6 +1260,11 @@
                 return search(0);
             }
 
+            function is510Group(group, sameSuit = false) {
+                const ranks = new Set(group.map(card => card.rank));
+                return group.length === 3 && ranks.size === 3 && [5, 10, 13].every(rank => ranks.has(rank)) && (!sameSuit || new Set(group.map(card => card.suit)).size === 1);
+            }
+
             function evaluate510(list) {
                 if (list.length < 3 || list.length % 3 !== 0 || list.some(card => card.joker)) return null;
                 const groupCount = list.length / 3;
@@ -1174,7 +1276,7 @@
                     count.set(card.rank, (count.get(card.rank) || 0) + 1);
                 });
                 const positiveSuits = [...bySuit.entries()]
-                    .filter(([, group]) => group.length === 3 && new Set(group.map(card => card.rank)).size === 3 && [5, 10, 13].every(rank => group.some(card => card.rank === rank)))
+                    .filter(([, group]) => is510Group(group, true))
                     .map(([suit]) => suit)
                     .sort((a, b) => b - a);
                 if (positiveSuits.length === groupCount && bySuit.size === groupCount) return { type: 'straight510', rank: positiveSuits[0], strength: positiveSuits, groupCount, length: list.length, cards: list };
@@ -1217,24 +1319,32 @@
                 return null;
             }
 
-            function canBeat(candidate, previous) {
-                if (!candidate) return false;
-                if (!previous) return true;
-                const bombs = ['rocket', 'four', 'straight510', 'mixed510'];
+            const BOMB_TYPES = ['rocket', 'four', 'straight510', 'mixed510'];
+
+            function compareBombs(candidate, previous) {
+                // 王炸 > 四张炸 > 正 510K > 副 510K > 一切普通牌型。
                 if (candidate.type === 'rocket') return true;
                 if (previous.type === 'rocket') return false;
-                if (candidate.type === 'four') return previous.type !== 'rocket' && (previous.type !== 'four' || candidate.rank > previous.rank);
+                if (candidate.type === 'four') return previous.type !== 'four' || candidate.rank > previous.rank;
+                if (previous.type === 'four') return false;
                 if (candidate.type === 'straight510') {
-                    if (previous.type === 'four' || previous.type === 'rocket') return false;
                     if (previous.type === 'straight510') return candidate.groupCount > previous.groupCount || (candidate.groupCount === previous.groupCount && compareStrength(candidate.strength, previous.strength) > 0);
+                    // 正 510K 可以压副 510K，也可以压任意普通牌型。
                     return true;
                 }
                 if (candidate.type === 'mixed510') {
-                    if (previous.type === 'four' || previous.type === 'rocket' || previous.type === 'straight510') return false;
+                    if (previous.type === 'straight510') return false;
                     if (previous.type === 'mixed510') return candidate.groupCount > previous.groupCount;
+                    // 副 510K 可以压任意普通牌型，但不能压正 510K/四张炸/王炸。
                     return true;
                 }
-                if (bombs.includes(previous.type)) return false;
+                return false;
+            }
+
+            function canBeat(candidate, previous) {
+                if (!candidate) return false;
+                if (!previous) return true;
+                if (BOMB_TYPES.includes(candidate.type) || BOMB_TYPES.includes(previous.type)) return compareBombs(candidate, previous);
                 if (candidate.type !== previous.type) return false;
                 if (candidate.type === 'tripleChain') return candidate.groupCount === previous.groupCount && candidate.rank > previous.rank;
                 return candidate.length === previous.length && candidate.rank > previous.rank;
