@@ -1,7 +1,7 @@
 const rules = require('../../utils/rules');
 
 const DEFAULT_SOCKET_URL = 'wss://example.com/ws';
-const DEFAULT_NAMES = ['你', '湘江客', '岳阳楼', '回雁峰'];
+const DEFAULT_NAMES = ['你', '立权几', '徐锦江', '龙乃几'];
 const SEAT_POSITIONS = ['seat-bottom', 'seat-left', 'seat-top', 'seat-right'];
 
 Page({
