@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>顺风出发 · Pelican Cycling Club</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap');
+:root{--ink:#203e3b;--paper:#f7f4e8;--accent:#e7754e}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif}main{max-width:1440px;margin:auto;padding:30px 5vw 24px}header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #203e3b30;padding-bottom:20px}.brand{font-family:'Space Grotesk',sans-serif;letter-spacing:2px;font-size:12px;font-weight:700;display:flex;gap:12px;align-items:center}.seal{width:32px;height:32px;border:1px solid;border-radius:50%;display:grid;place-items:center;font-size:21px}.edition{font-size:10px;letter-spacing:2px}.intro{display:flex;justify-content:space-between;align-items:end;padding:34px 0 25px}h1{font-weight:500;font-size:clamp(32px,5vw,64px);letter-spacing:-2px;margin:0 0 9px}.sub{font-size:12px;letter-spacing:3px;color:#67817b;margin:0}.intro aside{font-size:12px;line-height:1.8;color:#67817b;text-align:right}.scene{border-radius:14px;overflow:hidden;position:relative;background:#d9e9dc;box-shadow:0 3px 0 #203e3b08}.scene>svg{display:block;width:100%;height:auto}.badge{position:absolute;top:22px;left:25px;font-size:10px;letter-spacing:2px;display:flex;align-items:center;gap:8px}.dot{height:6px;width:6px;background:#4c7c64;border-radius:50%;box-shadow:0 0 0 4px #4c7c6415}.coordinates{position:absolute;right:24px;top:24px;font-size:9px;letter-spacing:2px;color:#527369}footer{display:flex;justify-content:space-between;align-items:center;padding-top:22px;gap:18px}.caption{font-size:12px;line-height:1.8}.caption span{display:block;color:#7a8b80;font-size:10px;letter-spacing:1px}.controls{display:flex;align-items:center;gap:18px;font-size:10px;letter-spacing:1px}button{font:inherit;color:var(--ink);background:transparent;border:1px solid #203e3b40;border-radius:25px;padding:11px 20px;cursor:pointer}button:hover{background:#e5eadc}input{width:90px;accent-color:var(--ink)}.speed{display:flex;align-items:center;gap:10px}.wheel{transform-box:fill-box;transform-origin:center;animation:spin 1.35s linear infinite}.ride{animation:bob 1.35s ease-in-out infinite}.wing{transform-origin:535px 306px;animation:wing 1.35s ease-in-out infinite}.scarf{transform-origin:609px 242px;animation:flutter .7s ease-in-out infinite alternate}.clouds{animation:drift 55s linear infinite}.hills{animation:drift 35s linear infinite}.shore{animation:drift 12s linear infinite}.road{animation:drift 2.7s linear infinite}.flowers{animation:drift 5.4s linear infinite}.breeze{animation:wind 2.4s ease-in-out infinite}.paused *{animation-play-state:paused!important}@keyframes spin{to{transform:rotate(360deg)}}@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}@keyframes wing{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(3deg)}}@keyframes flutter{from{transform:rotate(-4deg)}to{transform:rotate(6deg)}}@keyframes drift{to{transform:translateX(-1200px)}}@keyframes wind{0%,100%{opacity:.2;transform:translateX(15px)}50%{opacity:.8;transform:translateX(-10px)}}@media(max-width:650px){main{padding:20px}.edition,.intro aside,.coordinates{display:none}.intro{padding:26px 0}footer{align-items:start;flex-direction:column}.badge{top:14px;left:15px;font-size:8px}.scene>svg{width:160%;max-width:none;margin-left:-30%}.controls{width:100%;justify-content:space-between}h1{letter-spacing:-1px}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="brand"><span class="seal">↗</span> PELICAN CYCLING CLUB</div><div class="edition">FIELD NOTES — NO. 008 / THE COASTAL RIDE</div></header>
+<div class="intro"><div><h1>顺风，慢慢骑。</h1><p class="sub">NOWHERE TO BE. JUST THE SEA.</p></div><aside>一只鹈鹕，一辆单车。<br>把今天交给海风。</aside></div>
+<section class="scene" id="scene">
+<div class="badge"><i class="dot"></i><span id="status">ON A LITTLE ADVENTURE</span></div><div class="coordinates">COASTLINE LOOP &nbsp; / &nbsp; 24° C &nbsp; ↗ NE</div>
+<svg id="art" viewBox="0 0 1200 650" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+<title id="title">海岸边骑自行车的鹈鹕</title><desc id="desc">戴着绿色头盔、系着橙色围巾的白色鹈鹕踩动脚踏板，骑着珊瑚红色自行车经过海岸。车轮转动，云朵、山丘和路边花草缓缓向后移动。</desc>
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#dceadf"/><stop offset="1" stop-color="#f0edcf"/></linearGradient>
+ <linearGradient id="sea" x2="0" y2="1"><stop stop-color="#88bdb6"/><stop offset="1" stop-color="#c4d9bd"/></linearGradient>
+ <pattern id="grain" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1" cy="2" r=".5" fill="#31574d" opacity=".08"/><circle cx="5" cy="6" r=".4" fill="#fff" opacity=".3"/></pattern>
+ <g id="cloud" fill="#f8f5e6"><path d="M0 30C5 15 21 12 35 16C41 -7 77 -5 85 15C109 6 125 17 126 30Z"/></g>
+ <g id="hillstrip"><path d="M0 340Q130 205 285 328Q380 260 470 330Q625 180 810 332Q960 265 1200 333V440H0Z" fill="#a6c6ae"/><path d="M0 365Q150 290 290 372Q500 268 690 369Q980 280 1200 363V440H0Z" fill="#8db7a3"/></g>
+ <g id="shorestrip" fill="none" stroke="#e8efdb" stroke-width="3" stroke-linecap="round"><path d="M20 405h90m70 23h130m100-36h55m120 41h130m160-27h140m75 28h70"/><path d="M75 452h70m195 8h130m310-8h160m135 5h85" opacity=".6"/></g>
+ <g id="roadstrip" stroke="#efe3c5" stroke-width="4" stroke-linecap="round"><path d="M25 551h90m125 0h90m125 0h90m125 0h90m125 0h90m125 0h70"/></g>
+ <g id="flowerstrip"><g stroke="#718e67" stroke-width="3" fill="none"><path d="M70 607q4-20 16-29m-16 29q-7-15-19-18M320 634l7-35m-7 35q-14-16-21-16M945 609l8-28m-8 28q-12-15-21-15"/></g><g fill="#e8b660"><circle cx="86" cy="576" r="6"/><circle cx="327" cy="598" r="5"/><circle cx="953" cy="579" r="6"/></g><g fill="#94a777"><path d="M490 620l-9-18 2 20 18 2 8-17-15 13M1100 630l-7-19-1 20 17-2 10-16Z"/></g></g>
+ <g id="wheel"><circle r="79" fill="#ececd9" fill-opacity=".45" stroke="#284642" stroke-width="10"/><circle r="70" fill="none" stroke="#f9f1dc" stroke-width="3"/><g stroke="#78908a" stroke-width="1.5"><path d="M-69 0H69M0-69V69M-49-49L49 49M-49 49L49-49M-64-26L64 26M-64 26L64-26M-26-64L26 64M-26 64L26-64"/></g><circle r="8" fill="#f8edcf" stroke="#284642" stroke-width="3"/><path d="M46-47l8 9" stroke="#e9af62" stroke-width="5"/></g>
+</defs>
+<path fill="url(#sky)" d="M0 0h1200v650H0z"/>
+<circle cx="935" cy="151" r="66" fill="#f5d58e"/><circle cx="935" cy="151" r="86" fill="#f5d58e" opacity=".15"/>
+<g class="clouds" opacity=".8"><use href="#cloud" x="100" y="110"/><use href="#cloud" x="435" y="75" transform="scale(1.2)"/><use href="#cloud" x="1030" y="210"/><use href="#cloud" x="1300" y="110"/><use href="#cloud" x="1722" y="90"/><use href="#cloud" x="2230" y="210"/></g>
+<g stroke="#72958b" fill="none" stroke-width="2" stroke-linecap="round"><path d="M804 212q9-9 18 0q9-9 18 0M854 231q6-6 12 0q6-6 12 0"/></g>
+<g class="hills"><use href="#hillstrip"/><use href="#hillstrip" x="1200"/></g>
+<path d="M0 379Q600 368 1200 384V496H0Z" fill="url(#sea)"/>
+<g class="shore"><use href="#shorestrip"/><use href="#shorestrip" x="1200"/></g>
+<path d="M0 475Q600 456 1200 479V650H0Z" fill="#b4c49b"/>
+<path d="M0 490Q600 481 1200 490V588Q600 575 0 588Z" fill="#d1c6a5"/>
+<path d="M0 490Q600 481 1200 490M0 588Q600 575 1200 588" fill="none" stroke="#ece3c5" stroke-width="4"/>
+<g class="road"><use href="#roadstrip"/><use href="#roadstrip" x="1200"/></g>
+<ellipse cx="590" cy="537" rx="242" ry="12" fill="#516454" opacity=".15"/>
+<g class="breeze" stroke="#f5f3df" stroke-width="3" stroke-linecap="round"><path d="M319 295h52m-93 22h69m-16 23h33"/></g>
+<g class="ride">
+ <!-- wheels and bicycle -->
+ <g transform="translate(435 449)"><g class="wheel"><use href="#wheel"/></g></g>
+ <g transform="translate(753 449)"><g class="wheel"><use href="#wheel"/></g></g>
+ <path d="M358 423a84 84 0 0 1 154-8M677 414a84 84 0 0 1 153 15" stroke="#e98864" stroke-width="6" fill="none" stroke-linecap="round"/>
+ <!-- far leg and pedal -->
+ <path id="farLeg" d="M546 326L587 368L607 432" fill="none" stroke="#bf803f" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+ <path id="farFoot" d="M593 432h35l-9-7" fill="#d99443" stroke="#284642" stroke-width="2" stroke-linejoin="round"/>
+ <g fill="none" stroke="#df7151" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><path d="M435 449L518 346L565 449H435L695 346H518M565 449L695 346L753 449"/></g>
+ <path d="M518 346l-12-35M695 346l-13-45q-2-14 13-16l34-3" fill="none" stroke="#35534b" stroke-width="7" stroke-linecap="round"/>
+ <path d="M490 311h42" stroke="#284642" stroke-width="12" stroke-linecap="round"/>
+ <path d="M716 282h24q15 2 11 17" fill="none" stroke="#29443f" stroke-width="9" stroke-linecap="round"/>
+ <path d="M435 449l130-14q22 1 22 15t-22 16l-130-8Z" fill="#e9ba8b" stroke="#36524a" stroke-width="2"/>
+ <circle cx="565" cy="449" r="23" fill="#f0debb" stroke="#33534b" stroke-width="3"/>
+ <circle cx="565" cy="449" r="15" fill="none" stroke="#c1ad86" stroke-width="3" stroke-dasharray="3 4"/>
+ <path id="crank" d="M545 471L585 427" stroke="#35534b" stroke-width="5" stroke-linecap="round"/>
+ <!-- tail, body, long neck -->
+ <path d="M470 308l-62-36 19 40-26-9q17 43 73 34" fill="#e5e8db" stroke="#294941" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M474 267Q446 290 462 326Q479 357 534 353Q587 350 608 309Q623 282 622 235L632 196Q638 175 622 164Q604 152 590 174Q577 194 581 226L575 253Q523 241 474 267Z" fill="#faf7e7" stroke="#294941" stroke-width="3.5"/>
+ <path d="M475 326q56 34 104-18q-12 42-50 43q-34 3-54-25" fill="#d9ded2"/>
+ <!-- near pedaling leg -->
+ <path id="nearLeg" d="M526 337L504 388L545 471" fill="none" stroke="#e5a44e" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+ <path id="nearFoot" d="M531 471h39l-13-8" fill="#eeb15a" stroke="#294941" stroke-width="2.5" stroke-linejoin="round"/>
+ <path id="nearPedal" d="M531 477h34" stroke="#294941" stroke-width="6" stroke-linecap="round"/>
+ <!-- wing reaches handlebars -->
+ <g class="wing"><path d="M495 272Q531 254 567 281L618 297L707 280Q719 279 715 288Q663 312 618 321Q571 324 526 306Q498 303 495 272Z" fill="#eeeede" stroke="#294941" stroke-width="3"/><path d="M516 282q22 17 53 18m-47-6q20 14 43 14" fill="none" stroke="#a9b8a9" stroke-width="2.5" stroke-linecap="round"/></g>
+ <!-- scarf -->
+ <g class="scarf"><path d="M605 236Q567 232 522 216L529 232L512 238Q557 256 611 247" fill="#dc6c4e" stroke="#294941" stroke-width="2.5"/><path d="M536 233q27 10 50 10" fill="none" stroke="#f7af79" stroke-width="3"/></g>
+ <path d="M581 233q18 11 41 2l-1 15q-25 8-42-4Z" fill="#ed855b" stroke="#294941" stroke-width="2.5"/>
+ <!-- unmistakable pelican bill and throat pouch -->
+ <path d="M627 180L752 193Q739 236 682 242Q645 238 621 203Z" fill="#efc078" stroke="#294941" stroke-width="3"/>
+ <path d="M639 201q22 30 58 29" fill="none" stroke="#d59c57" stroke-width="2.5" stroke-linecap="round"/>
+ <path d="M624 175Q657 177 752 191L765 197Q758 205 743 203L622 192Z" fill="#edaa50" stroke="#294941" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M747 192l16 5-11 5" fill="#d47c48"/>
+ <ellipse cx="617" cy="182" rx="4.6" ry="5.6" fill="#243e37"/><circle cx="618" cy="180" r="1.4" fill="#fff"/>
+ <path d="M608 169q7-4 12 0" fill="none" stroke="#294941" stroke-width="2" stroke-linecap="round"/>
+ <!-- helmet -->
+ <path d="M578 166Q574 134 604 132Q634 130 639 161Z" fill="#527f69" stroke="#294941" stroke-width="3"/>
+ <path d="M591 158q-3-14 7-21m7 19q-1-14 3-20m12 18q0-11-5-17" fill="none" stroke="#9db69b" stroke-width="4" stroke-linecap="round"/>
+ <path d="M574 167l70-7" stroke="#294941" stroke-width="5" stroke-linecap="round"/>
+ <path d="M585 168q1 33 18 45l22-18" fill="none" stroke="#527065" stroke-width="3"/>
+ <rect x="599" y="205" width="9" height="7" rx="2" fill="#28463e"/>
+</g>
+<g class="flowers"><use href="#flowerstrip"/><use href="#flowerstrip" x="1200"/></g>
+<path fill="url(#grain)" d="M0 0h1200v650H0z" pointer-events="none"/>
+<text x="1125" y="610" fill="#617f66" font-size="10" font-family="sans-serif" letter-spacing="3" text-anchor="end">ENJOY THE DETOUR ↗</text>
+</svg>
+</section>
+<footer><div class="caption">目的地不重要，沿途有风就好。<span>A SMALL RIDE, A VERY GOOD DAY.</span></div><div class="controls"><label class="speed">海风速度 <input id="speed" type="range" min="0.4" max="2" step="0.1" value="1" aria-label="动画速度"><output id="speedLabel">1.0×</output></label><button id="pause" type="button" aria-pressed="false">Ⅱ &nbsp; 歇一会儿</button></div></footer>
+</main>
+<script>
+const scene=document.getElementById('scene'),button=document.getElementById('pause'),speedInput=document.getElementById('speed');
+const parts=Object.fromEntries(['farLeg','farFoot','nearLeg','nearFoot','nearPedal','crank'].map(id=>[id,document.getElementById(id)]));
+let paused=false,speed=1,phase=2.3,last=0;
+const point=(a)=>({x:565+30*Math.cos(a),y:449+30*Math.sin(a)});
+function leg(hip,foot,bend){const dx=foot.x-hip.x,dy=foot.y-hip.y,d=Math.hypot(dx,dy),upper=78,lower=80,a=(upper*upper-lower*lower+d*d)/(2*d),h=Math.sqrt(Math.max(0,upper*upper-a*a));return{x:hip.x+a*dx/d+bend*h*dy/d,y:hip.y+a*dy/d-bend*h*dx/d};}
+function draw(){const front=point(phase),back=point(phase+Math.PI);for(const [prefix,foot,hip,bend]of[['near',front,{x:526,y:337},1],['far',back,{x:546,y:326},-1]]){const knee=leg(hip,foot,bend);parts[prefix+'Leg'].setAttribute('d',`M${hip.x} ${hip.y}L${knee.x} ${knee.y}L${foot.x} ${foot.y}`);parts[prefix+'Foot'].setAttribute('d',`M${foot.x-13} ${foot.y}Q${foot.x+3} ${foot.y-6} ${foot.x+23} ${foot.y+1}L${foot.x-13} ${foot.y+4}Z`);}parts.nearPedal.setAttribute('d',`M${front.x-15} ${front.y+6}h35`);parts.crank.setAttribute('d',`M${front.x} ${front.y}L${back.x} ${back.y}`);}
+function tick(t){if(last&&!paused)phase+=Math.min((t-last)/1000,.05)*Math.PI*2/1.35*speed;last=t;draw();requestAnimationFrame(tick);}requestAnimationFrame(tick);
+function sync(){scene.getAnimations({subtree:true}).forEach(a=>{a.playbackRate=speed;paused?a.pause():a.play();});}
+button.addEventListener('click',()=>{paused=!paused;sync();button.setAttribute('aria-pressed',String(paused));button.textContent=paused?'▶  继续出发':'Ⅱ  歇一会儿';document.getElementById('status').textContent=paused?'A MOMENT TO BREATHE':'ON A LITTLE ADVENTURE';});
+speedInput.addEventListener('input',()=>{speed=Number(speedInput.value);document.getElementById('speedLabel').value=speed.toFixed(1)+'×';sync();});
+</script>
+</body>
+</html>

@@ -98,6 +98,11 @@
             border-color: rgba(255, 255, 255, 0.3);
         }
 
+        a.game-card {
+            color: inherit;
+            text-decoration: none;
+        }
+
         .game-card::before {
             content: '';
             position: absolute;
@@ -208,6 +213,12 @@
 
     <div class="container">
         <div class="games-grid">
+            <a class="game-card" href="pelican/index.html">
+                <span class="game-icon" aria-hidden="true">🚲</span>
+                <h2 class="game-title">鹈鹕骑行</h2>
+                <p class="game-description">顺风，慢慢骑，和鹈鹕一起吹海风</p>
+            </a>
+
             <div class="game-card" onclick="location.href='2048/index.html'">
                 <span class="game-icon">🎮</span>
                 <h2 class="game-title">2048</h2>
