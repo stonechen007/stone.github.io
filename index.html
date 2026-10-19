@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>趣味小游戏导航</title>
+    <title>互动作品集｜小游戏与科普 H5</title>
     <style>
         * {
             margin: 0;
@@ -152,6 +152,72 @@
             margin: 0 auto;
         }
 
+        .featured-wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem 2.5rem;
+        }
+
+        .featured-h5 {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1.25rem 1.5rem;
+            color: #fff;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.26);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+        }
+
+        .featured-h5:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.22);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16);
+        }
+
+        .featured-icon {
+            width: 58px;
+            height: 58px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: rgba(9, 30, 52, 0.35);
+            font-size: 2rem;
+        }
+
+        .featured-kicker {
+            margin-bottom: .3rem;
+            color: #ffe4a6;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .14em;
+        }
+
+        .featured-title {
+            margin: 0 0 .25rem;
+            font-size: 1.2rem;
+        }
+
+        .featured-description {
+            margin: 0;
+            color: rgba(255, 255, 255, .86);
+            font-size: .9rem;
+            line-height: 1.55;
+        }
+
+        .featured-cta {
+            padding: .7rem 1rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .18);
+            font-size: .85rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
         footer {
             text-align: center;
             padding: 1.5rem;
@@ -201,14 +267,36 @@
             .game-icon {
                 font-size: 3rem;
             }
+
+            .featured-wrap {
+                padding: 0 1rem 2rem;
+            }
+
+            .featured-h5 {
+                grid-template-columns: auto 1fr;
+                gap: 1rem;
+                padding: 1rem;
+                border-radius: 16px;
+            }
+
+            .featured-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 1.7rem;
+            }
+
+            .featured-cta {
+                grid-column: 2;
+                justify-self: start;
+            }
         }
     </style>
 </head>
 
 <body>
     <header>
-        <h1>石头趣味小游戏合集</h1>
-        <p>精选有趣的网页小游戏</p>
+        <h1>石头的互动作品</h1>
+        <p>网页小游戏与科普 H5</p>
     </header>
 
     <div class="container">
@@ -262,10 +350,22 @@
             </div>
 
         </div>
+
+        <section class="featured-wrap" aria-label="科普专题">
+            <a class="featured-h5" href="shenzhen-rainstorm-h5/">
+                <span class="featured-icon" aria-hidden="true">🌧️</span>
+                <div>
+                    <span class="featured-kicker">INTERACTIVE SCIENCE · SHENZHEN</span>
+                    <h2 class="featured-title">深圳暴雨避险科普 H5</h2>
+                    <p class="featured-description">认识城市内涝、地下空间与边坡风险，互动学习汛期避险要点。</p>
+                </div>
+                <span class="featured-cta">进入科普 →</span>
+            </a>
+        </section>
     </div>
 
     <footer>
-        <p>© 2025 趣味小游戏合集 | 支持触屏和键盘操作</p>
+        <p>© 2025 互动作品集 | 支持触屏和键盘操作</p>
         <p>© 出品人：陈石生</p>
     </footer>
 

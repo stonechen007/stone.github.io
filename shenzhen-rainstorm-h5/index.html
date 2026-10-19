@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071a2b">
+  <meta name="description" content="深圳暴雨与城市内涝避险科普：关注预警、避开积水和地下空间、远离危险边坡，做好家庭应急准备。">
+  <title>雨水会退，安全先行｜深圳暴雨避险科普</title>
+  <style>
+    :root {
+      --ink: #10283a;
+      --muted: #587080;
+      --navy: #071a2b;
+      --navy-2: #102d42;
+      --blue: #245975;
+      --teal: #83d7d0;
+      --mist: #eaf2f1;
+      --paper: #f6f8f5;
+      --orange: #ff7648;
+      --line: rgba(16, 40, 58, .16);
+      --serif: "Songti SC", "Noto Serif SC", "STSong", serif;
+      --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; }
+    button { font: inherit; }
+    .progress { position: fixed; z-index: 20; inset: 0 auto auto 0; height: 3px; width: 0; background: var(--orange); }
+    .hero { min-height: min(850px, 100vh); min-height: min(850px, 100svh); position: relative; overflow: hidden; display: flex; align-items: stretch; background: var(--navy); color: #fff; isolation: isolate; }
+    .hero-art { position: absolute; z-index: -2; inset: 0; background: url("assets/shenzhen-rainstorm-hero.png") right center / auto 110% no-repeat; opacity: .94; transform: scale(1.015); animation: hero-arrive 1.3s cubic-bezier(.2,.7,.2,1) both; }
+    .hero::before { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg, rgba(5,20,34,.98) 0%, rgba(5,20,34,.92) 31%, rgba(5,20,34,.45) 61%, rgba(5,20,34,.08) 100%), linear-gradient(0deg, rgba(5,20,34,.58), transparent 38%); }
+    .hero-shell { width: min(1220px, 100%); min-height: inherit; margin: 0 auto; padding: 26px clamp(22px, 5vw, 76px) 34px; display: flex; flex-direction: column; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .brand { text-decoration: none; display: inline-flex; align-items: center; gap: 11px; color: rgba(255,255,255,.88); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
+    .brand-mark { width: 30px; height: 30px; border: 1px solid rgba(131,215,208,.7); border-radius: 50%; display: grid; place-items: center; color: var(--teal); font-size: 15px; letter-spacing: 0; }
+    .top-link { text-decoration: none; color: rgba(255,255,255,.72); border-bottom: 1px solid rgba(255,255,255,.4); padding: 7px 0; font-size: 13px; }
+    .hero-copy { margin: auto 0; padding: 72px 0 94px; max-width: 620px; animation: copy-rise .8s .15s both; }
+    .eyebrow, .section-index { display: flex; align-items: center; gap: 10px; color: var(--teal); font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+    .eyebrow::before, .section-index::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+    h1 { margin: 25px 0 18px; font-family: var(--serif); font-size: clamp(42px, 8vw, 88px); line-height: 1.1; font-weight: 600; letter-spacing: -.055em; }
+    h1 em { color: var(--teal); font-style: normal; }
+    .hero-lead { max-width: 390px; margin: 0; color: rgba(255,255,255,.75); font-size: clamp(15px, 1.8vw, 18px); line-height: 1.9; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 17px; margin-top: 32px; }
+    .button-primary { min-height: 48px; padding: 0 20px; border: 0; border-radius: 4px; color: #10283a; background: var(--teal); display: inline-flex; align-items: center; justify-content: center; gap: 12px; text-decoration: none; font-size: 14px; font-weight: 800; transition: transform .2s, background .2s; }
+    .button-primary:hover { transform: translateY(-2px); background: #a1e6de; }
+    .hero-note { color: rgba(255,255,255,.58); font-size: 12px; }
+    .hero-foot { display: flex; align-items: end; justify-content: space-between; gap: 18px; color: rgba(255,255,255,.72); font-size: 12px; }
+    .risk-line { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+    .risk-line span { white-space: nowrap; }
+    .hero-scroll { color: rgba(255,255,255,.65); letter-spacing: .12em; white-space: nowrap; }
+
+    main { overflow: hidden; }
+    .wrap { width: min(1080px, calc(100% - 44px)); margin: 0 auto; }
+    section { padding: clamp(70px, 10vw, 132px) 0; }
+    .section-index { color: #517a88; }
+    h2 { max-width: 770px; margin: 17px 0 15px; font-family: var(--serif); font-size: clamp(34px, 6vw, 64px); line-height: 1.18; letter-spacing: -.04em; font-weight: 600; }
+    .section-intro { max-width: 650px; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.85; }
+
+    .first-response { background: var(--paper); }
+    .response-layout { display: grid; grid-template-columns: 1fr .9fr; gap: clamp(32px, 7vw, 100px); align-items: end; }
+    .response-stamp { border-top: 1px solid var(--line); padding-top: 23px; }
+    .response-stamp .stamp-label { color: var(--orange); font-size: 11px; font-weight: 800; letter-spacing: .13em; }
+    .response-stamp p { margin: 12px 0 0; font-family: var(--serif); font-size: clamp(21px, 3vw, 32px); line-height: 1.55; }
+    .response-stamp strong { color: #c94e2c; }
+    .three-actions { margin-top: 58px; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); }
+    .action-step { padding: 23px 24px 4px 0; display: grid; grid-template-columns: 38px 1fr; gap: 14px; }
+    .action-step + .action-step { padding-left: 24px; border-left: 1px solid var(--line); }
+    .step-no { color: var(--orange); font-family: var(--serif); font-size: 28px; line-height: 1; }
+    .action-step h3 { margin: 0 0 7px; font-size: 16px; }
+    .action-step p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.75; }
+
+    .risks { background: var(--mist); }
+    .risk-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; }
+    .risk-aside { max-width: 270px; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .risk-list { margin-top: 50px; border-top: 1px solid rgba(16,40,58,.2); }
+    .risk-row { display: grid; grid-template-columns: 90px minmax(170px, .8fr) 1.2fr 40px; gap: 18px; align-items: center; padding: 23px 0; border-bottom: 1px solid rgba(16,40,58,.2); }
+    .risk-row .n { color: #76939a; font: 16px var(--serif); }
+    .risk-row h3 { margin: 0; font-size: clamp(17px, 2vw, 21px); }
+    .risk-row p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .risk-symbol { width: 36px; height: 36px; border: 1px solid rgba(16,40,58,.24); border-radius: 50%; display: grid; place-items: center; color: #c94e2c; font-size: 16px; }
+
+    .situations { background: #10283a; color: #fff; position: relative; }
+    .situations .section-index { color: var(--teal); }
+    .situations .section-intro { color: rgba(255,255,255,.68); }
+    .scene-layout { display: grid; grid-template-columns: .72fr 1.28fr; gap: clamp(30px, 8vw, 120px); margin-top: 55px; }
+    .scene-tabs { display: flex; flex-direction: column; border-top: 1px solid rgba(255,255,255,.2); }
+    .scene-tab { position: relative; border: 0; border-bottom: 1px solid rgba(255,255,255,.2); padding: 17px 30px 17px 0; text-align: left; color: rgba(255,255,255,.55); background: transparent; cursor: pointer; transition: color .2s, padding .2s; }
+    .scene-tab::after { content: "↗"; position: absolute; right: 2px; top: 17px; color: var(--teal); opacity: 0; transform: translate(-4px, 4px); transition: .2s; }
+    .scene-tab[aria-selected="true"] { padding-left: 13px; color: #fff; }
+    .scene-tab[aria-selected="true"]::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--orange); }
+    .scene-tab[aria-selected="true"]::after { opacity: 1; transform: none; }
+    .scene-content { min-height: 275px; border-left: 1px solid rgba(255,255,255,.18); padding: 6px 0 8px clamp(24px, 4vw, 54px); animation: panel-in .35s both; }
+    .scene-count { color: var(--teal); font: 12px var(--serif); letter-spacing: .12em; }
+    .scene-content h3 { margin: 19px 0 13px; font-family: var(--serif); font-size: clamp(27px, 4vw, 39px); font-weight: 500; }
+    .scene-content p { max-width: 560px; margin: 0; color: rgba(255,255,255,.72); line-height: 1.9; }
+    .scene-content ul { margin: 24px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 10px 20px; }
+    .scene-content li { color: var(--teal); font-size: 12px; }
+    .scene-content li::before { content: "＋"; margin-right: 7px; color: var(--orange); }
+    .mini-warning { margin-top: 40px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.2); display: flex; align-items: flex-start; gap: 12px; color: rgba(255,255,255,.62); font-size: 12px; line-height: 1.75; }
+    .mini-warning b { color: #ffad8e; white-space: nowrap; }
+
+    .preparedness { background: #f2eee5; }
+    .prepared-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(30px, 8vw, 105px); align-items: start; }
+    .kit-intro { position: sticky; top: 40px; }
+    .kit-count { margin-top: 29px; color: #7a8583; font-size: 13px; }
+    .kit-count strong { color: var(--ink); font: 34px var(--serif); }
+    .kit-list { border-top: 1px solid rgba(16,40,58,.2); }
+    .kit-item { display: grid; grid-template-columns: 27px 1fr auto; align-items: center; gap: 14px; min-height: 66px; border-bottom: 1px solid rgba(16,40,58,.2); cursor: pointer; }
+    .kit-item input { position: absolute; opacity: 0; pointer-events: none; }
+    .checkmark { width: 21px; height: 21px; border: 1px solid #8b9993; border-radius: 50%; display: grid; place-items: center; transition: .2s; }
+    .checkmark::after { content: "✓"; font-size: 12px; color: #fff; opacity: 0; }
+    .kit-item input:checked + .checkmark { background: #1f6671; border-color: #1f6671; }
+    .kit-item input:checked + .checkmark::after { opacity: 1; }
+    .kit-item input:focus-visible + .checkmark { outline: 3px solid rgba(31,102,113,.28); outline-offset: 3px; }
+    .kit-name { font-size: 15px; }
+    .kit-desc { color: #7a8583; font-size: 12px; }
+    .kit-reset { margin-top: 17px; padding: 7px 0; border: 0; color: #47636a; background: transparent; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; font-size: 12px; }
+
+    .quiz { background: var(--navy); color: #fff; }
+    .quiz .section-index { color: var(--teal); }
+    .quiz .section-intro { color: rgba(255,255,255,.64); }
+    .quiz-box { margin-top: 43px; display: grid; grid-template-columns: 75px 1fr; gap: 24px; border-top: 1px solid rgba(255,255,255,.22); border-bottom: 1px solid rgba(255,255,255,.22); padding: 30px 0; }
+    .quiz-mark { color: var(--orange); font: 56px/.9 var(--serif); }
+    .quiz-question { margin: 0; font: 24px/1.5 var(--serif); }
+    .quiz-options { margin-top: 23px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .quiz-options button { min-height: 44px; padding: 0 16px; border: 1px solid rgba(255,255,255,.36); border-radius: 3px; color: #fff; background: transparent; cursor: pointer; transition: .2s; }
+    .quiz-options button:hover, .quiz-options button[aria-pressed="true"] { color: var(--navy); background: var(--teal); border-color: var(--teal); }
+    .quiz-result { min-height: 26px; margin: 18px 0 0; color: var(--teal); font-size: 14px; line-height: 1.8; }
+    .truth-note { margin-top: 52px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+    .truth-note h3 { margin: 0; color: #fff; font: 28px var(--serif); }
+    .truth-note p { margin: 0; color: rgba(255,255,255,.66); font-size: 14px; line-height: 1.9; }
+    .truth-note strong { color: #ffad8e; }
+
+    .sources { background: #e3ece9; padding: 58px 0 75px; }
+    .source-layout { display: grid; grid-template-columns: .6fr 1.4fr; gap: 30px; }
+    .source-layout h2 { margin: 0; font-size: 27px; }
+    .source-layout p { margin: 8px 0 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .source-list { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+    .source-list a { padding: 12px 0; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 14px; text-decoration: none; font-size: 13px; }
+    .source-list a::after { content: "↗"; color: #c94e2c; }
+    .source-list a:hover span { text-decoration: underline; text-underline-offset: 3px; }
+    footer { padding: 23px 22px calc(25px + env(safe-area-inset-bottom)); color: rgba(255,255,255,.7); background: #061522; text-align: center; font-size: 11px; line-height: 1.8; }
+    .creator-credit { display: inline-block; margin-top: 8px; color: rgba(255,255,255,.48); letter-spacing: .08em; }
+    .mobile-nav { display: none; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    @keyframes hero-arrive { from { opacity: .25; transform: scale(1.06); } to { opacity: .94; transform: scale(1.015); } }
+    @keyframes copy-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    @keyframes panel-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    @media (min-width: 1500px) { .hero-art { background-size: auto 115%; } }
+    @media (max-width: 760px) {
+      html { scroll-padding-top: 18px; }
+      .hero { min-height: 780px; min-height: 100svh; }
+      .hero-art { background-size: auto 78%; background-position: 66% 100%; opacity: .84; }
+      .hero::before { background: linear-gradient(180deg, rgba(5,20,34,.45) 0%, rgba(5,20,34,.42) 38%, rgba(5,20,34,.78) 61%, rgba(5,20,34,.98) 89%), linear-gradient(90deg, rgba(5,20,34,.45), transparent 100%); }
+      .hero-shell { padding: 18px 22px 86px; }
+      .brand { font-size: 10px; letter-spacing: .11em; }
+      .brand-mark { width: 27px; height: 27px; }
+      .hero-copy { margin: auto 0 0; padding: 0 0 23px; }
+      h1 { margin: 16px 0 12px; font-size: clamp(45px, 14vw, 70px); }
+      .hero-lead { max-width: 310px; font-size: 15px; }
+      .hero-actions { margin-top: 22px; gap: 12px; }
+      .hero-foot { align-items: start; flex-direction: column; gap: 11px; }
+      .risk-line { gap: 7px 13px; font-size: 11px; }
+      .hero-scroll { display: none; }
+      .wrap { width: calc(100% - 42px); }
+      section { padding: 72px 0; }
+      .response-layout, .prepared-layout { grid-template-columns: 1fr; gap: 28px; }
+      .response-stamp { max-width: 480px; }
+      .three-actions { margin-top: 39px; grid-template-columns: 1fr; }
+      .action-step { padding: 17px 0; }
+      .action-step + .action-step { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+      .risk-heading { display: block; }
+      .risk-aside { margin-top: 13px; }
+      .risk-list { margin-top: 32px; }
+      .risk-row { grid-template-columns: 39px 1fr 32px; gap: 8px 12px; padding: 17px 0; }
+      .risk-row h3 { grid-column: 2; }
+      .risk-row p { grid-column: 2 / 3; grid-row: 2; font-size: 13px; }
+      .risk-symbol { grid-column: 3; grid-row: 1 / 3; }
+      .risk-row .n { grid-row: 1 / 3; align-self: start; padding-top: 2px; }
+      .scene-layout { grid-template-columns: 1fr; gap: 25px; margin-top: 36px; }
+      .scene-tabs { flex-direction: row; overflow-x: auto; scrollbar-width: none; }
+      .scene-tabs::-webkit-scrollbar { display: none; }
+      .scene-tab { flex: 0 0 auto; border-bottom: 1px solid rgba(255,255,255,.2); padding: 13px 14px; font-size: 13px; }
+      .scene-tab[aria-selected="true"] { padding-left: 14px; }
+      .scene-tab[aria-selected="true"]::before { top: auto; right: 0; bottom: -1px; left: 0; width: auto; height: 2px; }
+      .scene-tab::after { display: none; }
+      .scene-content { min-height: 255px; border-left: 0; border-top: 1px solid rgba(255,255,255,.2); padding: 22px 0 0; }
+      .mini-warning { margin-top: 28px; }
+      .kit-intro { position: static; }
+      .kit-list { margin-top: 8px; }
+      .kit-desc { max-width: 116px; text-align: right; line-height: 1.5; }
+      .quiz-box { grid-template-columns: 44px 1fr; gap: 12px; padding: 24px 0; }
+      .quiz-mark { font-size: 42px; }
+      .quiz-question { font-size: 20px; }
+      .quiz-options { flex-direction: column; align-items: stretch; }
+      .quiz-options button { text-align: left; }
+      .truth-note, .source-layout { grid-template-columns: 1fr; gap: 18px; }
+      .sources { padding: 48px 0 78px; }
+      .mobile-nav { position: fixed; z-index: 15; right: 0; bottom: 0; left: 0; display: grid; grid-template-columns: repeat(3, 1fr); padding: 9px 12px calc(9px + env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,.12); background: rgba(6,21,34,.94); backdrop-filter: blur(14px); }
+      .mobile-nav a { padding: 5px; color: rgba(255,255,255,.72); text-align: center; text-decoration: none; font-size: 11px; }
+      .mobile-nav a span { display: block; margin-bottom: 2px; color: var(--teal); font-size: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hero" id="top">
+    <div class="hero-art" role="img" aria-label="暴雨中的深圳城市与通往安全高处的人行步道"></div>
+    <div class="hero-shell">
+      <nav class="topbar" aria-label="主导航">
+        <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">雨</span><span>深应知 · RAIN READY</span></a>
+        <a class="top-link" href="#sources">科普依据 ↗</a>
+      </nav>
+      <div class="hero-copy">
+        <div class="eyebrow">深圳汛期 · 防灾科普</div>
+        <h1>雨水会退，<br><em>安全先行。</em></h1>
+        <p class="hero-lead">暴雨来袭，先看预警，再决定路线。用 3 分钟掌握深圳汛期的关键避险动作。</p>
+        <div class="hero-actions">
+          <a class="button-primary" href="#first-response">开始避险自检 <span aria-hidden="true">↓</span></a>
+          <span class="hero-note">向下滑动，查看行动指南</span>
+        </div>
+      </div>
+      <div class="hero-foot">
+        <div class="risk-line" aria-label="深圳汛期重点风险">
+          <span>城市内涝</span><span>地下空间进水</span><span>边坡滑坡</span><span>触电风险</span>
+        </div>
+        <div class="hero-scroll">SCROLL TO STAY SAFE　↓</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="first-response" id="first-response">
+      <div class="wrap">
+        <div class="response-layout reveal">
+          <div>
+            <div class="section-index">01 / FIRST RESPONSE</div>
+            <h2>先判断风险，<br>再决定行动。</h2>
+            <p class="section-intro">深圳短时强降雨可能造成道路积水、地下空间进水，也可能伴随边坡险情。预警发布后，提前调整行程比临时涉险更重要。</p>
+          </div>
+          <div class="response-stamp">
+            <div class="stamp-label">记住这一句</div>
+            <p>能不出门，就先不出门。<br><strong>遇积水，不涉水。</strong></p>
+          </div>
+        </div>
+        <div class="three-actions reveal">
+          <article class="action-step"><div class="step-no">01</div><div><h3>看官方预警</h3><p>留意气象、水务和应急部门发布的信息，查看途经区域是否有风险提示。</p></div></article>
+          <article class="action-step"><div class="step-no">02</div><div><h3>减少非必要出行</h3><p>确需出行时，提前规划路线，避开低洼、临河及地下空间周边。</p></div></article>
+          <article class="action-step"><div class="step-no">03</div><div><h3>听从现场指引</h3><p>遇到警戒线、封路或疏散安排，按工作人员和属地部门指引行动。</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="risks" id="risks">
+      <div class="wrap">
+        <div class="risk-heading reveal">
+          <div><div class="section-index">02 / KNOW YOUR RISKS</div><h2>深圳汛期，<br>这些地方多留心。</h2></div>
+          <p class="risk-aside">积水下可能有台阶、井盖缺失或电气危险。看不清、不了解的路段，不要凭经验通行。</p>
+        </div>
+        <div class="risk-list reveal">
+          <article class="risk-row"><span class="n">01</span><h3>下凹立交与涵洞</h3><p>低洼处可能快速积水。不要停留或驾车贸然通过，及时绕行。</p><span class="risk-symbol" aria-hidden="true">↘</span></article>
+          <article class="risk-row"><span class="n">02</span><h3>地下通道与车库</h3><p>留意积水倒灌风险；地下空间已经进水时，不要冒险进入或折返取物。</p><span class="risk-symbol" aria-hidden="true">↓</span></article>
+          <article class="risk-row"><span class="n">03</span><h3>河道与山边斜坡</h3><p>远离河道、山洪沟和不稳定边坡。发现裂缝、落石或异常水流，立即撤离。</p><span class="risk-symbol" aria-hidden="true">⌁</span></article>
+          <article class="risk-row"><span class="n">04</span><h3>井盖与带电设施</h3><p>避开漩涡、井盖和水中的电线；发现落水电线，绕行并报告有关部门。</p><span class="risk-symbol" aria-hidden="true">ϟ</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="situations" id="guide">
+      <div class="wrap">
+        <div class="reveal">
+          <div class="section-index">03 / CHOOSE A SCENE</div>
+          <h2>你正处于哪种情况？</h2>
+          <p class="section-intro">选择一个场景，快速查看行动要点。危险已经发生时，先离开危险位置，再向周边人员或救援力量求助。</p>
+        </div>
+        <div class="scene-layout reveal">
+          <div class="scene-tabs" role="tablist" aria-label="避险场景">
+            <button class="scene-tab" role="tab" id="tab-road" aria-controls="scene-panel" aria-selected="true" data-scene="road">在路上</button>
+            <button class="scene-tab" role="tab" id="tab-car" aria-controls="scene-panel" aria-selected="false" data-scene="car">驾车途中</button>
+            <button class="scene-tab" role="tab" id="tab-underground" aria-controls="scene-panel" aria-selected="false" data-scene="underground">地下空间</button>
+            <button class="scene-tab" role="tab" id="tab-slope" aria-controls="scene-panel" aria-selected="false" data-scene="slope">靠近边坡</button>
+          </div>
+          <article class="scene-content" id="scene-panel" role="tabpanel" aria-labelledby="tab-road" aria-live="polite">
+            <div class="scene-count">SCENE 01　/　OUTDOOR</div>
+            <h3>走到积水路段，先绕开。</h3>
+            <p>远离下凹立交、涵洞、地下通道和河道。积水深浅、流速和路面情况难以判断，不要涉水探路，也不要靠近漩涡或井盖。</p>
+            <ul><li>改走高处、安全路线</li><li>避开路边电线和电杆</li><li>留意警戒线与现场指引</li></ul>
+          </article>
+        </div>
+        <div class="mini-warning reveal"><b>不要这样做</b><span>不要在暴雨中为了抄近路穿越积水；不要靠近河道、地下空间或封闭路段围观拍摄。</span></div>
+      </div>
+    </section>
+
+    <section class="preparedness" id="kit">
+      <div class="wrap prepared-layout">
+        <div class="kit-intro reveal">
+          <div class="section-index">04 / HOME PREP</div>
+          <h2>把准备，<br>留在雨来之前。</h2>
+          <p class="section-intro">把家庭应急物品放在容易拿到的位置。下方清单可以勾选，进度会保存在当前设备。</p>
+          <div class="kit-count"><strong id="kit-progress">0/5</strong><br>项已准备</div>
+        </div>
+        <div class="reveal">
+          <div class="kit-list" id="kit-list">
+            <label class="kit-item"><input type="checkbox" data-kit="water"><span class="checkmark" aria-hidden="true"></span><span class="kit-name">饮用水与简易食品</span><span class="kit-desc">选择不易变质的物品</span></label>
+            <label class="kit-item"><input type="checkbox" data-kit="medicine"><span class="checkmark" aria-hidden="true"></span><span class="kit-name">常用药品</span><span class="kit-desc">按家庭成员需要准备</span></label>
+            <label class="kit-item"><input type="checkbox" data-kit="light"><span class="checkmark" aria-hidden="true"></span><span class="kit-name">手电筒与备用电源</span><span class="kit-desc">确认电量可用</span></label>
+            <label class="kit-item"><input type="checkbox" data-kit="radio"><span class="checkmark" aria-hidden="true"></span><span class="kit-name">收音机或信息接收方式</span><span class="kit-desc">确保能获取权威通知</span></label>
+            <label class="kit-item"><input type="checkbox" data-kit="documents"><span class="checkmark" aria-hidden="true"></span><span class="kit-name">重要证件与联络信息</span><span class="kit-desc">可放入防水袋备份</span></label>
+          </div>
+          <button class="kit-reset" type="button" id="reset-kit">重置清单</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="quiz" id="quiz">
+      <div class="wrap">
+        <div class="reveal">
+          <div class="section-index">05 / QUICK CHECK</div>
+          <h2>30 秒避险小测。</h2>
+          <p class="section-intro">遇到一条看起来不深的积水路，你会怎么做？</p>
+        </div>
+        <div class="quiz-box reveal">
+          <div class="quiz-mark" aria-hidden="true">?</div>
+          <div>
+            <p class="quiz-question">水面平静、看起来不深，<br>可以快速穿过去吗？</p>
+            <div class="quiz-options" role="group" aria-label="选择避险答案">
+              <button type="button" data-answer="wrong" aria-pressed="false">可以，快步通过</button>
+              <button type="button" data-answer="right" aria-pressed="false">不涉水，选择绕行</button>
+            </div>
+            <p class="quiz-result" id="quiz-result" aria-live="polite"></p>
+          </div>
+        </div>
+        <div class="truth-note reveal">
+          <h3>信息要核实，<br>别让谣言添乱。</h3>
+          <p>灾情、道路封闭和救援信息，请以<strong>气象、水务、应急等部门官方发布</strong>为准。转发前先核实来源与时间，不传播未经证实的现场消息。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sources" id="sources">
+      <div class="wrap source-layout">
+        <div>
+          <div class="section-index">REFERENCE</div>
+          <h2>内容来源</h2>
+          <p>本页为防灾科普整理，不替代实时预警、现场指挥或专业救援建议。</p>
+        </div>
+        <div class="source-list">
+          <a href="https://swj.sz.gov.cn/gkmlpt/content/12/12897/post_12897387.html" target="_blank" rel="noopener noreferrer"><span>深圳市水务局｜遇到城市内涝怎么办？</span></a>
+          <a href="https://swj.sz.gov.cn/gkmlpt/content/12/12724/post_12724686.html" target="_blank" rel="noopener noreferrer"><span>深圳市水务局｜积水过膝，必须出门怎么办？</span></a>
+          <a href="https://www.mem.gov.cn/kp/zrzh/202508/t20250801_553115.shtml" target="_blank" rel="noopener noreferrer"><span>中华人民共和国应急管理部｜城市内涝避险指南</span></a>
+          <a href="https://www.sz.gov.cn/szzt2010/wgkzl/glgk/jgxxgk/gtzy/content/mpost_12907119.html" target="_blank" rel="noopener noreferrer"><span>深圳政府在线｜汛期地灾避险指南</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>遇险先到安全区域，再及时求助。报警求助 110 / 消防救援 119 / 医疗急救 120<br>请留意属地气象、水务和应急部门发布的最新信息。<br><span class="creator-credit">provide by 陈书莺 陈石生</span></footer>
+  <nav class="mobile-nav" aria-label="快速导航">
+    <a href="#risks"><span aria-hidden="true">⌁</span>风险识别</a>
+    <a href="#guide"><span aria-hidden="true">↗</span>场景避险</a>
+    <a href="#quiz"><span aria-hidden="true">✓</span>快速自测</a>
+  </nav>
+  <script>
+    const scenes = {
+      road: {
+        label: 'SCENE 01　/　OUTDOOR', title: '走到积水路段，先绕开。',
+        text: '远离下凹立交、涵洞、地下通道和河道。积水深浅、流速和路面情况难以判断，不要涉水探路，也不要靠近漩涡或井盖。',
+        tips: ['改走高处、安全路线', '避开路边电线和电杆', '留意警戒线与现场指引']
+      },
+      car: {
+        label: 'SCENE 02　/　IN A CAR', title: '开车遇积水，不要贸然通过。',
+        text: '绕开低洼路段和下凹立交，不要把车驶入深浅不明或有急流的积水。遇到封路、积水警示或交警指引，及时停车并改道。',
+        tips: ['提前查看路况与官方提示', '不要把车停在低洼处', '车辆受困时按救援指引撤离']
+      },
+      underground: {
+        label: 'SCENE 03　/　UNDERGROUND', title: '地下空间进水，切勿折返。',
+        text: '地下车库、地下通道等区域可能快速进水。看见积水或听到疏散通知，立即沿安全路线离开，前往地面开阔处或更高处。',
+        tips: ['不为取车或物品返回', '远离下沉入口与坡道', '告知身边人并听从疏散']
+      },
+      slope: {
+        label: 'SCENE 04　/　HILLSIDE', title: '山边雨急，留意边坡变化。',
+        text: '持续强降雨后，边坡、挡土墙和山洪沟周边风险上升。发现裂缝、落石、浑水突涌等异常，立即离开并报告物业或有关部门。',
+        tips: ['不在河道和沟谷停留', '不靠近松动边坡围观', '雨后仍留意官方提示']
+      }
+    };
+    const tabButtons = [...document.querySelectorAll('.scene-tab')];
+    const scenePanel = document.querySelector('#scene-panel');
+    function selectScene(key) {
+      const data = scenes[key];
+      if (!data) return;
+      tabButtons.forEach(button => {
+        const selected = button.dataset.scene === key;
+        button.setAttribute('aria-selected', String(selected));
+        button.tabIndex = selected ? 0 : -1;
+      });
+      const active = tabButtons.find(button => button.dataset.scene === key);
+      scenePanel.setAttribute('aria-labelledby', active.id);
+      scenePanel.innerHTML = `<div class="scene-count">${data.label}</div><h3>${data.title}</h3><p>${data.text}</p><ul>${data.tips.map(tip => `<li>${tip}</li>`).join('')}</ul>`;
+      scenePanel.style.animation = 'none';
+      requestAnimationFrame(() => { scenePanel.style.animation = ''; });
+    }
+    tabButtons.forEach((button, index) => {
+      button.addEventListener('click', () => selectScene(button.dataset.scene));
+      button.addEventListener('keydown', event => {
+        if (!['ArrowRight', 'ArrowLeft'].includes(event.key)) return;
+        event.preventDefault();
+        const direction = event.key === 'ArrowRight' ? 1 : -1;
+        const next = tabButtons[(index + direction + tabButtons.length) % tabButtons.length];
+        selectScene(next.dataset.scene);
+        next.focus();
+      });
+    });
+    selectScene('road');
+
+    const kitInputs = [...document.querySelectorAll('[data-kit]')];
+    const kitStorageKey = 'shenzhen-rainstorm-h5-kit-v1';
+    function updateKit(save = true) {
+      const checked = kitInputs.filter(input => input.checked).length;
+      document.querySelector('#kit-progress').textContent = `${checked}/${kitInputs.length}`;
+      if (save) {
+        try { localStorage.setItem(kitStorageKey, JSON.stringify(kitInputs.filter(input => input.checked).map(input => input.dataset.kit))); }
+        catch { /* The checklist remains usable when storage is disabled. */ }
+      }
+    }
+    try {
+      const savedKit = JSON.parse(localStorage.getItem(kitStorageKey) || '[]');
+      if (Array.isArray(savedKit)) kitInputs.forEach(input => { input.checked = savedKit.includes(input.dataset.kit); });
+    } catch { /* Storage may be unavailable in private browsing contexts. */ }
+    updateKit(false);
+    kitInputs.forEach(input => input.addEventListener('change', () => updateKit()));
+    document.querySelector('#reset-kit').addEventListener('click', () => {
+      kitInputs.forEach(input => { input.checked = false; });
+      try { localStorage.removeItem(kitStorageKey); } catch { /* Keep reset usable without storage. */ }
+      updateKit(false);
+    });
+
+    document.querySelectorAll('[data-answer]').forEach(button => button.addEventListener('click', () => {
+      document.querySelectorAll('[data-answer]').forEach(option => option.setAttribute('aria-pressed', String(option === button)));
+      const result = document.querySelector('#quiz-result');
+      result.textContent = button.dataset.answer === 'right'
+        ? '答对了。水下情况难判断，绕行并关注现场指引。'
+        : '不建议涉水。井盖、台阶、急流和带电设施都可能被水面遮住，请绕行。';
+    }));
+
+    const progress = document.querySelector('.progress');
+    let ticking = false;
+    function updateProgress() {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`;
+      ticking = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(updateProgress); ticking = true; }
+    }, { passive: true });
+    updateProgress();
+
+    const revealItems = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
+      }), { threshold: .12 });
+      revealItems.forEach(item => observer.observe(item));
+    } else revealItems.forEach(item => item.classList.add('is-visible'));
+  </script>
+</body>
+</html>
