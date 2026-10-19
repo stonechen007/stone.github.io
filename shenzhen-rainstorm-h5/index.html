@@ -59,7 +59,7 @@
     h2 { max-width: 770px; margin: 17px 0 15px; font-family: var(--serif); font-size: clamp(34px, 6vw, 64px); line-height: 1.18; letter-spacing: -.04em; font-weight: 600; }
     .section-intro { max-width: 650px; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.85; }
 
-    .first-response { background: var(--paper); }
+    .first-response { background: linear-gradient(rgba(246,248,245,.87), rgba(246,248,245,.91)), url("assets/response-alert-bg.jpg") center / cover no-repeat; }
     .response-layout { display: grid; grid-template-columns: 1fr .9fr; gap: clamp(32px, 7vw, 100px); align-items: end; }
     .response-stamp { border-top: 1px solid var(--line); padding-top: 23px; }
     .response-stamp .stamp-label { color: var(--orange); font-size: 11px; font-weight: 800; letter-spacing: .13em; }
@@ -72,7 +72,7 @@
     .action-step h3 { margin: 0 0 7px; font-size: 16px; }
     .action-step p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.75; }
 
-    .risks { background: var(--mist); }
+    .risks { background: linear-gradient(rgba(234,242,241,.88), rgba(234,242,241,.91)), url("assets/risk-city-bg.jpg") center / cover no-repeat; }
     .risk-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; }
     .risk-aside { max-width: 270px; color: var(--muted); font-size: 13px; line-height: 1.8; }
     .risk-list { margin-top: 50px; border-top: 1px solid rgba(16,40,58,.2); }
@@ -82,7 +82,7 @@
     .risk-row p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
     .risk-symbol { width: 36px; height: 36px; border: 1px solid rgba(16,40,58,.24); border-radius: 50%; display: grid; place-items: center; color: #c94e2c; font-size: 16px; }
 
-    .situations { background: #10283a; color: #fff; position: relative; }
+    .situations { background: linear-gradient(90deg, rgba(7,26,43,.94), rgba(7,26,43,.82)), url("assets/safe-route-bg.jpg") center / cover no-repeat; color: #fff; position: relative; }
     .situations .section-index { color: var(--teal); }
     .situations .section-intro { color: rgba(255,255,255,.68); }
     .scene-layout { display: grid; grid-template-columns: .72fr 1.28fr; gap: clamp(30px, 8vw, 120px); margin-top: 55px; }
@@ -102,7 +102,7 @@
     .mini-warning { margin-top: 40px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.2); display: flex; align-items: flex-start; gap: 12px; color: rgba(255,255,255,.62); font-size: 12px; line-height: 1.75; }
     .mini-warning b { color: #ffad8e; white-space: nowrap; }
 
-    .preparedness { background: #f2eee5; }
+    .preparedness { background: linear-gradient(rgba(242,238,229,.88), rgba(242,238,229,.91)), url("assets/emergency-kit-bg.jpg") center / cover no-repeat; }
     .prepared-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(30px, 8vw, 105px); align-items: start; }
     .kit-intro { position: sticky; top: 40px; }
     .kit-count { margin-top: 29px; color: #7a8583; font-size: 13px; }
@@ -119,7 +119,7 @@
     .kit-desc { color: #7a8583; font-size: 12px; }
     .kit-reset { margin-top: 17px; padding: 7px 0; border: 0; color: #47636a; background: transparent; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; font-size: 12px; }
 
-    .quiz { background: var(--navy); color: #fff; }
+    .quiz { background: linear-gradient(90deg, rgba(7,26,43,.94), rgba(7,26,43,.82)), url("assets/quiz-flood-bg.jpg") center / cover no-repeat; color: #fff; }
     .quiz .section-index { color: var(--teal); }
     .quiz .section-intro { color: rgba(255,255,255,.64); }
     .quiz-box { margin-top: 43px; display: grid; grid-template-columns: 75px 1fr; gap: 24px; border-top: 1px solid rgba(255,255,255,.22); border-bottom: 1px solid rgba(255,255,255,.22); padding: 30px 0; }
@@ -134,7 +134,7 @@
     .truth-note p { margin: 0; color: rgba(255,255,255,.66); font-size: 14px; line-height: 1.9; }
     .truth-note strong { color: #ffad8e; }
 
-    .sources { background: #e3ece9; padding: 58px 0 75px; }
+    .sources { background: linear-gradient(rgba(227,236,233,.86), rgba(227,236,233,.9)), url("assets/sources-city-bg.jpg") center / cover no-repeat; padding: 58px 0 75px; }
     .source-layout { display: grid; grid-template-columns: .6fr 1.4fr; gap: 30px; }
     .source-layout h2 { margin: 0; font-size: 27px; }
     .source-layout p { margin: 8px 0 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
@@ -169,6 +169,12 @@
       .wrap { width: calc(100% - 42px); }
       section { padding: 72px 0; }
       .response-layout, .prepared-layout { grid-template-columns: 1fr; gap: 28px; }
+      .first-response { background-position: 68% center; }
+      .risks { background-position: 62% center; }
+      .situations { background-position: 68% center; }
+      .preparedness { background-position: 68% center; }
+      .quiz { background-position: 68% center; }
+      .sources { background-position: 62% center; }
       .response-stamp { max-width: 480px; }
       .three-actions { margin-top: 39px; grid-template-columns: 1fr; }
       .action-step { padding: 17px 0; }
