@@ -32,8 +32,10 @@
     .hero::before { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg, rgba(5,20,34,.98) 0%, rgba(5,20,34,.92) 31%, rgba(5,20,34,.45) 61%, rgba(5,20,34,.08) 100%), linear-gradient(0deg, rgba(5,20,34,.58), transparent 38%); }
     .hero-shell { width: min(1220px, 100%); min-height: inherit; margin: 0 auto; padding: 26px clamp(22px, 5vw, 76px) 34px; display: flex; flex-direction: column; }
     .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .brand-block { display: grid; gap: 5px; }
     .brand { text-decoration: none; display: inline-flex; align-items: center; gap: 11px; color: rgba(255,255,255,.88); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
     .brand-mark { width: 30px; height: 30px; border: 1px solid rgba(131,215,208,.7); border-radius: 50%; display: grid; place-items: center; color: var(--teal); font-size: 15px; letter-spacing: 0; }
+    .creator-byline { margin-left: 41px; color: rgba(255,255,255,.82); font-size: 10px; letter-spacing: .05em; }
     .top-link { text-decoration: none; color: rgba(255,255,255,.72); border-bottom: 1px solid rgba(255,255,255,.4); padding: 7px 0; font-size: 13px; }
     .hero-copy { margin: auto 0; padding: 72px 0 94px; max-width: 620px; animation: copy-rise .8s .15s both; }
     .eyebrow, .section-index { display: flex; align-items: center; gap: 10px; color: var(--teal); font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
@@ -41,7 +43,6 @@
     h1 { margin: 25px 0 18px; font-family: var(--serif); font-size: clamp(42px, 8vw, 88px); line-height: 1.1; font-weight: 600; letter-spacing: -.055em; }
     h1 em { color: var(--teal); font-style: normal; }
     .hero-lead { max-width: 390px; margin: 0; color: rgba(255,255,255,.75); font-size: clamp(15px, 1.8vw, 18px); line-height: 1.9; }
-    .creator-byline { margin: 10px 0 0; color: rgba(255,255,255,.82); font-size: 12px; letter-spacing: .06em; }
     .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 17px; margin-top: 32px; }
     .button-primary { min-height: 48px; padding: 0 20px; border: 0; border-radius: 4px; color: #10283a; background: var(--teal); display: inline-flex; align-items: center; justify-content: center; gap: 12px; text-decoration: none; font-size: 14px; font-weight: 800; transition: transform .2s, background .2s; }
     .button-primary:hover { transform: translateY(-2px); background: #a1e6de; }
@@ -142,7 +143,6 @@
     .source-list a::after { content: "↗"; color: #c94e2c; }
     .source-list a:hover span { text-decoration: underline; text-underline-offset: 3px; }
     footer { padding: 23px 22px calc(25px + env(safe-area-inset-bottom)); color: rgba(255,255,255,.7); background: #061522; text-align: center; font-size: 11px; line-height: 1.8; }
-    .creator-credit { display: inline-block; margin-top: 8px; color: rgba(255,255,255,.76); font-size: 12px; letter-spacing: .06em; }
     .mobile-nav { display: none; }
     .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
     .reveal.is-visible { opacity: 1; transform: none; }
@@ -216,14 +216,16 @@
     <div class="hero-art" role="img" aria-label="暴雨中的深圳城市与通往安全高处的人行步道"></div>
     <div class="hero-shell">
       <nav class="topbar" aria-label="主导航">
-        <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">雨</span><span>深应知 · RAIN READY</span></a>
+        <div class="brand-block">
+          <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">雨</span><span>深应知 · RAIN READY</span></a>
+          <span class="creator-byline">Provide by 陈书莺 陈石生</span>
+        </div>
         <a class="top-link" href="#sources">科普依据 ↗</a>
       </nav>
       <div class="hero-copy">
         <div class="eyebrow">深圳汛期 · 防灾科普</div>
         <h1>雨水会退，<br><em>安全先行。</em></h1>
         <p class="hero-lead">暴雨来袭，先看预警，再决定路线。用 3 分钟掌握深圳汛期的关键避险动作。</p>
-        <p class="creator-byline">provide by 陈书莺 陈石生</p>
         <div class="hero-actions">
           <a class="button-primary" href="#first-response">开始避险自检 <span aria-hidden="true">↓</span></a>
           <span class="hero-note">向下滑动，查看行动指南</span>
@@ -362,7 +364,7 @@
       </div>
     </section>
   </main>
-  <footer>遇险先到安全区域，再及时求助。报警求助 110 / 消防救援 119 / 医疗急救 120<br>请留意属地气象、水务和应急部门发布的最新信息。<br><span class="creator-credit">provide by 陈书莺 陈石生</span></footer>
+  <footer>遇险先到安全区域，再及时求助。报警求助 110 / 消防救援 119 / 医疗急救 120<br>请留意属地气象、水务和应急部门发布的最新信息。</footer>
   <nav class="mobile-nav" aria-label="快速导航">
     <a href="#risks"><span aria-hidden="true">⌁</span>风险识别</a>
     <a href="#guide"><span aria-hidden="true">↗</span>场景避险</a>
