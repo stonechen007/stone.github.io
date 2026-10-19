@@ -41,6 +41,7 @@
     h1 { margin: 25px 0 18px; font-family: var(--serif); font-size: clamp(42px, 8vw, 88px); line-height: 1.1; font-weight: 600; letter-spacing: -.055em; }
     h1 em { color: var(--teal); font-style: normal; }
     .hero-lead { max-width: 390px; margin: 0; color: rgba(255,255,255,.75); font-size: clamp(15px, 1.8vw, 18px); line-height: 1.9; }
+    .creator-byline { margin: 10px 0 0; color: rgba(255,255,255,.82); font-size: 12px; letter-spacing: .06em; }
     .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 17px; margin-top: 32px; }
     .button-primary { min-height: 48px; padding: 0 20px; border: 0; border-radius: 4px; color: #10283a; background: var(--teal); display: inline-flex; align-items: center; justify-content: center; gap: 12px; text-decoration: none; font-size: 14px; font-weight: 800; transition: transform .2s, background .2s; }
     .button-primary:hover { transform: translateY(-2px); background: #a1e6de; }
@@ -141,7 +142,7 @@
     .source-list a::after { content: "↗"; color: #c94e2c; }
     .source-list a:hover span { text-decoration: underline; text-underline-offset: 3px; }
     footer { padding: 23px 22px calc(25px + env(safe-area-inset-bottom)); color: rgba(255,255,255,.7); background: #061522; text-align: center; font-size: 11px; line-height: 1.8; }
-    .creator-credit { display: inline-block; margin-top: 8px; color: rgba(255,255,255,.48); letter-spacing: .08em; }
+    .creator-credit { display: inline-block; margin-top: 8px; color: rgba(255,255,255,.76); font-size: 12px; letter-spacing: .06em; }
     .mobile-nav { display: none; }
     .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
     .reveal.is-visible { opacity: 1; transform: none; }
@@ -222,6 +223,7 @@
         <div class="eyebrow">深圳汛期 · 防灾科普</div>
         <h1>雨水会退，<br><em>安全先行。</em></h1>
         <p class="hero-lead">暴雨来袭，先看预警，再决定路线。用 3 分钟掌握深圳汛期的关键避险动作。</p>
+        <p class="creator-byline">provide by 陈书莺 陈石生</p>
         <div class="hero-actions">
           <a class="button-primary" href="#first-response">开始避险自检 <span aria-hidden="true">↓</span></a>
           <span class="hero-note">向下滑动，查看行动指南</span>
