@@ -192,64 +192,74 @@
   .feedback.correct-fb { color: #00e676; }
   .feedback.wrong-fb { color: #ff5252; }
 
-  .input-area {
-    display: flex;
+  .choice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
     margin-bottom: 24px;
-    align-items: center;
   }
 
-  .answer-input {
-    flex: 1;
-    background: rgba(255,255,255,0.1);
-    border: 2px solid rgba(255,255,255,0.2);
-    border-radius: 16px;
-    padding: 16px 20px;
-    font-size: 2rem;
-    font-weight: 700;
-    color: #fff;
-    text-align: center;
-    outline: none;
-    transition: border-color 0.2s;
-    font-family: inherit;
-    caret-color: #ffd700;
-  }
-
-  .answer-input:focus {
-    border-color: #ffd700;
-  }
-
-  .answer-input::placeholder {
-    color: rgba(255,255,255,0.25);
-    font-size: 1.2rem;
-    font-weight: 400;
-  }
-
-  .submit-btn {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: none;
-    background: linear-gradient(135deg, #ffd700, #ffaa00);
-    color: #1a1a2e;
-    font-size: 1.8rem;
-    cursor: pointer;
+  .choice-btn {
     display: flex;
     align-items: center;
-    justify-content: center;
-    transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 4px 20px rgba(255,215,0,0.3);
-    flex-shrink: 0;
+    gap: 12px;
+    min-width: 0;
+    min-height: 72px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
     touch-action: manipulation;
+    transition: transform 0.15s, border-color 0.15s, background 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
-  .submit-btn:active {
-    transform: scale(0.9);
+  .choice-btn:active:not(:disabled) { transform: scale(0.98); }
+  .choice-btn:focus-visible { outline: 3px solid #ffd700; outline-offset: 2px; }
+  .choice-btn:disabled:not(.choice-correct):not(.choice-wrong) { opacity: 0.55; }
+
+  .choice-key {
+    display: grid;
+    place-items: center;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,215,0,0.16);
+    color: #ffd700;
+    font-size: 1rem;
+    font-weight: 800;
   }
 
-  .submit-btn:disabled {
-    opacity: 0.4;
-    pointer-events: none;
+  .choice-value {
+    min-width: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .choice-btn.choice-correct {
+    border-color: #00e676;
+    background: rgba(0,230,118,0.16);
+  }
+
+  .choice-btn.choice-correct .choice-key {
+    background: #00e676;
+    color: #10291b;
+  }
+
+  .choice-btn.choice-wrong {
+    border-color: #ff5252;
+    background: rgba(255,82,82,0.16);
+  }
+
+  .choice-btn.choice-wrong .choice-key {
+    background: #ff5252;
+    color: #301313;
   }
 
   .progress-wrap {
@@ -417,9 +427,10 @@
     .equation { font-size: 2.5rem; }
     .feedback { font-size: 1rem; }
     .progress-wrap { margin-bottom: 18px; }
-    .input-area { gap: 8px; margin-bottom: 12px; }
-    .answer-input { min-width: 0; padding: 12px; font-size: 1.5rem; }
-    .submit-btn { width: 54px; height: 54px; }
+    .choice-grid { gap: 10px; margin-bottom: 12px; }
+    .choice-btn { gap: 10px; min-height: 64px; padding: 10px 12px; border-radius: 14px; }
+    .choice-key { flex-basis: 32px; width: 32px; height: 32px; }
+    .choice-value { font-size: 1.35rem; }
     .result-overlay { align-items: flex-start; }
     .result-card { margin: auto 0; padding: 28px 22px; }
   }
@@ -434,6 +445,10 @@
     .range-btn { padding-right: 2px; padding-left: 2px; font-size: 0.76rem; }
     .equation { font-size: 2.25rem; }
     .question-card { padding: 22px 12px; }
+    .choice-grid { gap: 8px; }
+    .choice-btn { gap: 8px; min-height: 60px; padding: 8px; }
+    .choice-key { flex-basis: 29px; width: 29px; height: 29px; }
+    .choice-value { font-size: 1.2rem; }
     .result-card { padding: 24px 18px; }
   }
 
@@ -446,7 +461,8 @@
     .equation { margin-bottom: 2px; }
     .feedback { min-height: 1.35em; font-size: 0.95rem; }
     .progress-wrap { margin-bottom: 14px; }
-    .input-area { margin-bottom: 8px; }
+    .choice-grid { gap: 8px; margin-bottom: 8px; }
+    .choice-btn { min-height: 54px; }
     .result-card { padding-top: 22px; padding-bottom: 22px; }
     .result-emoji { font-size: 3rem; margin-bottom: 4px; }
     .result-stats { margin: 14px 0; }
@@ -504,10 +520,19 @@
     <div class="progress-bar" id="progressBar" style="width:0%"></div>
   </div>
 
-  <div class="input-area">
-    <input type="number" class="answer-input" id="answerInput"
-           placeholder="输入答案" aria-label="输入答案" min="0" inputmode="numeric" autocomplete="off">
-    <button class="submit-btn" id="submitBtn" title="确认">&#10003;</button>
+  <div class="choice-grid" id="choiceGrid" role="group" aria-label="选择答案">
+    <button class="choice-btn" type="button" data-option-index="0">
+      <span class="choice-key">A</span><span class="choice-value"></span>
+    </button>
+    <button class="choice-btn" type="button" data-option-index="1">
+      <span class="choice-key">B</span><span class="choice-value"></span>
+    </button>
+    <button class="choice-btn" type="button" data-option-index="2">
+      <span class="choice-key">C</span><span class="choice-value"></span>
+    </button>
+    <button class="choice-btn" type="button" data-option-index="3">
+      <span class="choice-key">D</span><span class="choice-value"></span>
+    </button>
   </div>
 </div>
 
@@ -556,8 +581,7 @@
     feedback: document.getElementById('feedback'),
     streakBadge: document.getElementById('streakBadge'),
     progressBar: document.getElementById('progressBar'),
-    answerInput: document.getElementById('answerInput'),
-    submitBtn: document.getElementById('submitBtn'),
+    choiceButtons: document.querySelectorAll('.choice-btn'),
     resultOverlay: document.getElementById('resultOverlay'),
     resultEmoji: document.getElementById('resultEmoji'),
     resultTitle: document.getElementById('resultTitle'),
@@ -575,6 +599,7 @@
     a: 0, b: 0,
     operator: '+',
     answer: 0,
+    options: [],
     streak: 0,
     limit: 20,
     startTime: 0,
@@ -622,6 +647,43 @@
 
     state.a = a;
     state.b = b;
+    state.options = createOptions(state.answer);
+  }
+
+  function createOptions(answer) {
+    var options = [answer];
+    while (options.length < 4) {
+      var candidate = Math.floor(Math.random() * (state.limit + 1));
+      if (options.indexOf(candidate) === -1) options.push(candidate);
+    }
+    for (var i = options.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = options[i];
+      options[i] = options[j];
+      options[j] = temp;
+    }
+    return options;
+  }
+
+  function renderOptions() {
+    var letters = ['A', 'B', 'C', 'D'];
+    for (var i = 0; i < el.choiceButtons.length; i++) {
+      var button = el.choiceButtons[i];
+      button.disabled = false;
+      button.className = 'choice-btn';
+      button.querySelector('.choice-key').textContent = letters[i];
+      button.querySelector('.choice-value').textContent = state.options[i];
+      button.setAttribute('aria-label', letters[i] + '，答案 ' + state.options[i]);
+    }
+  }
+
+  function markOptions(selectedIndex) {
+    for (var i = 0; i < el.choiceButtons.length; i++) {
+      var button = el.choiceButtons[i];
+      button.disabled = true;
+      if (state.options[i] === state.answer) button.classList.add('choice-correct');
+      if (i === selectedIndex && state.options[i] !== state.answer) button.classList.add('choice-wrong');
+    }
   }
 
   function renderEquation() {
@@ -685,34 +747,29 @@
 
     generateProblem();
     renderEquation();
+    renderOptions();
 
     el.feedback.textContent = '';
     el.feedback.className = 'feedback';
     el.questionCard.className = 'question-card';
-    el.answerInput.value = '';
-    el.answerInput.disabled = false;
-    el.submitBtn.disabled = false;
-    el.answerInput.focus();
 
     updateUI();
     showStreak();
     state.answering = true;
   }
 
-  function handleSubmit() {
+  function handleAnswer(selectedIndex) {
     if (!state.answering) return;
     if (Date.now() >= state.deadline) {
       updateTimer();
       return;
     }
-    var raw = el.answerInput.value.trim();
-    if (raw === '') return;
-
-    var userAnswer = parseInt(raw, 10);
-    if (isNaN(userAnswer)) return;
+    var userAnswer = state.options[selectedIndex];
+    if (typeof userAnswer !== 'number') return;
 
     state.answering = false;
     var correct = userAnswer === state.answer;
+    markOptions(selectedIndex);
 
     if (correct) {
       state.score += 10 + Math.min(state.streak * 2, 10);
@@ -730,8 +787,6 @@
       el.feedback.textContent = '正确答案是 ' + state.answer;
     }
 
-    el.answerInput.disabled = true;
-    el.submitBtn.disabled = true;
     state.current++;
     updateUI();
     showStreak();
@@ -752,8 +807,7 @@
     state.answering = false;
     clearInterval(timerInterval);
     clearTimeout(advanceTimer);
-    el.answerInput.disabled = true;
-    el.submitBtn.disabled = true;
+    for (var i = 0; i < el.choiceButtons.length; i++) el.choiceButtons[i].disabled = true;
     var elapsed = Math.min(ROUND_SECONDS, Math.floor((Date.now() - state.startTime) / 1000));
     var correct = state.history.filter(Boolean).length;
     var wrong = state.history.length - correct;
@@ -789,6 +843,7 @@
       a: 0, b: 0,
       operator: '+',
       answer: 0,
+      options: [],
       streak: 0,
       limit: limit,
       startTime: Date.now(),
@@ -807,9 +862,15 @@
     timerInterval = setInterval(updateTimer, 200);
   }
 
-  el.submitBtn.addEventListener('click', handleSubmit);
-  el.answerInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') handleSubmit();
+  for (var i = 0; i < el.choiceButtons.length; i++) {
+    el.choiceButtons[i].addEventListener('click', function() {
+      handleAnswer(Number(this.getAttribute('data-option-index')));
+    });
+  }
+  document.addEventListener('keydown', function(e) {
+    if (!state.answering || e.metaKey || e.ctrlKey || e.altKey) return;
+    var index = 'abcd'.indexOf(e.key.toLowerCase());
+    if (index !== -1) handleAnswer(index);
   });
   el.retryBtn.addEventListener('click', function() { resetGame(state.limit); });
   var rangeButtons = document.querySelectorAll('.range-btn');
