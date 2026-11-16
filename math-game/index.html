@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>加减法闯关</title>
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -10,10 +10,12 @@
   body {
     font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
     min-height: 100vh;
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: max(16px, env(safe-area-inset-top)) 0 max(16px, env(safe-area-inset-bottom));
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     color: #fff;
     overflow-x: hidden;
@@ -110,6 +112,7 @@
   .range-btn {
     flex: 1;
     min-width: 0;
+    min-height: 44px;
     padding: 9px 4px;
     border: 1px solid rgba(255,255,255,0.2);
     border-radius: 10px;
@@ -237,6 +240,7 @@
     transition: transform 0.15s, box-shadow 0.15s;
     box-shadow: 0 4px 20px rgba(255,215,0,0.3);
     flex-shrink: 0;
+    touch-action: manipulation;
   }
 
   .submit-btn:active {
@@ -393,10 +397,68 @@
     transition: all 0.3s;
   }
 
-  @media (max-width: 400px) {
-    .equation { font-size: 2.6rem; }
-    .answer-input { font-size: 1.6rem; padding: 12px 16px; }
-    .question-card { padding: 24px 16px; }
+  @media (max-width: 600px) {
+    body {
+      justify-content: flex-start;
+      padding-top: max(12px, env(safe-area-inset-top));
+    }
+
+    .container { padding: 0 16px; }
+    .top-bar { gap: 8px; margin-bottom: 14px; }
+    .score-box, .round-box, .timer-box { padding: 8px 5px; border-radius: 12px; }
+    .score-label, .round-label, .timer-label { font-size: 0.66rem; }
+    .score-value, .round-value, .timer-value { font-size: 1.25rem; }
+    .range-picker { margin-bottom: 16px; }
+    .range-options { gap: 5px; }
+    .range-btn { padding: 8px 3px; font-size: 0.8rem; }
+    .dots { gap: 7px; margin-bottom: 8px; }
+    .dot { width: 10px; height: 10px; }
+    .question-card { padding: 24px 16px; border-radius: 20px; margin-bottom: 18px; }
+    .equation { font-size: 2.5rem; }
+    .feedback { font-size: 1rem; }
+    .progress-wrap { margin-bottom: 18px; }
+    .input-area { gap: 8px; margin-bottom: 12px; }
+    .answer-input { min-width: 0; padding: 12px; font-size: 1.5rem; }
+    .submit-btn { width: 54px; height: 54px; }
+    .result-overlay { align-items: flex-start; }
+    .result-card { margin: auto 0; padding: 28px 22px; }
+  }
+
+  @media (max-width: 360px) {
+    .container { padding: 0 12px; }
+    .top-bar { gap: 6px; }
+    .score-box, .round-box, .timer-box { padding: 7px 3px; }
+    .score-label, .round-label, .timer-label { font-size: 0.62rem; }
+    .score-value, .round-value, .timer-value { font-size: 1.15rem; }
+    .range-options { gap: 4px; }
+    .range-btn { padding-right: 2px; padding-left: 2px; font-size: 0.76rem; }
+    .equation { font-size: 2.25rem; }
+    .question-card { padding: 22px 12px; }
+    .result-card { padding: 24px 18px; }
+  }
+
+  @media (max-width: 600px) and (max-height: 700px) {
+    body { justify-content: flex-start; }
+    .container { padding-top: 0; }
+    .top-bar { margin-bottom: 10px; }
+    .range-picker { margin-bottom: 12px; }
+    .question-card { padding-top: 18px; padding-bottom: 18px; margin-bottom: 14px; }
+    .equation { margin-bottom: 2px; }
+    .feedback { min-height: 1.35em; font-size: 0.95rem; }
+    .progress-wrap { margin-bottom: 14px; }
+    .input-area { margin-bottom: 8px; }
+    .result-card { padding-top: 22px; padding-bottom: 22px; }
+    .result-emoji { font-size: 3rem; margin-bottom: 4px; }
+    .result-stats { margin: 14px 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 </style>
 </head>
